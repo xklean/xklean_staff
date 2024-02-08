@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package serverstaff;
+
+service StaffService{
+
+}
+
+message RequestStaffById{
+    string id = 1;
+}
+
+message ResponseStaffById{
+    google.protobuf.Timestamp created_at = 1;
+}
