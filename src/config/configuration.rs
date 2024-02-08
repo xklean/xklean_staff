@@ -1,6 +1,5 @@
 use std::collections::HashMap;
-use std::path::Path;
-use config::{Config,File};
+use config::{Config, File};
 
 pub struct Configuration {
     pub db_host: String,
@@ -29,8 +28,8 @@ impl Configuration {
             db_password: map["database_password"].to_string(),
             db_name: map["database_name"].to_string(),
             db_schema: map["database_schema"].to_string(),
-            service_host: "".to_string(),
-            service_port: "".to_string(),
+            service_host: map["service_host"].to_string(),
+            service_port: map["service_port"].to_string(),
         };
     }
 }
