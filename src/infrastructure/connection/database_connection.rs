@@ -1,6 +1,5 @@
 use async_trait::async_trait;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
-use sea_orm::*;
 
 use crate::adapters::connection::IConnection;
 

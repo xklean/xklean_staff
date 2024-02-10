@@ -6,7 +6,7 @@ use crate::pb_staff;
 use crate::pb_staff::{RequestStaffById, ResponseStaffById};
 use crate::pb_staff::staff_service_server::{StaffService};
 
-#[derive(Default,Clone)]
+#[derive(Default)]
 pub struct StaffServiceApi{
     config:Box<Arc<Configuration>>
 }
@@ -20,6 +20,7 @@ impl StaffServiceApi{
     }
 }
 
+#[tonic::async_trait]
 impl StaffService for StaffServiceApi {
     async fn get_staff(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
         let req = request.get_ref();

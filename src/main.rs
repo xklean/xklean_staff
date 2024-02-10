@@ -29,6 +29,8 @@ pub mod pb_staff {
 #[tokio::main]
 async fn main()  -> Result<(), Box<dyn std::error::Error>> {
     let cfg =Arc::new(cfg::init_config());
+    let config = Arc::clone(&cfg);
+
     let connection_url = cfg.get_connection_url();
 
     // get connection related url for primary database.
@@ -38,8 +40,8 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
         Err(err) => panic!("{}", err)
     };
 
-    let service_address = cfg.get_service_address();
-    let api_server = StaffServiceApi::new(Box::new(cfg));
+    let service_address = config.get_service_address();
+    let api_server = StaffServiceApi::new(Box::new(config));
 
     let (signal_tx, signal_rx) = signal_channel();
     spawn(wait_for_sigterm(signal_tx));

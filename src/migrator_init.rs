@@ -20,7 +20,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Err(err)=>panic!("{}",err)
     };
 
-    match Migrator::up(db,None) {
+    match Migrator::up(&db,None).await {
         Err(err) => panic!("{}", err),
         Ok(_) => ()
     }

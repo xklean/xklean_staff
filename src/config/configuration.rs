@@ -1,6 +1,9 @@
+#![allow(dead_code)]
+
 use std::collections::HashMap;
 use config::{Config, File};
 
+#[derive(Default)]
 pub struct Configuration {
     pub db_host: String,
     pub db_user: String,
@@ -11,6 +14,7 @@ pub struct Configuration {
     pub service_host: String,
     pub service_port: String,
 }
+
 
 impl Configuration {
     pub fn init_config() -> Configuration {
@@ -41,6 +45,6 @@ impl Configuration {
     }
 
     pub fn get_service_address(&self) -> String {
-        format!("{}:{}", self.service_host, self.service_port)
+       return   format!("{}:{}", self.service_host, self.service_port)
     }
 }

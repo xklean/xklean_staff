@@ -1,6 +1,5 @@
 use sea_orm::prelude::async_trait;
-use sea_orm::DbErr;
-use sea_orm_migration::{MigrationName, MigrationTrait, MigratorTrait, SchemaManager};
+use sea_orm_migration::{MigrationName, MigrationTrait, MigratorTrait};
 
 pub struct Migrator;
 
