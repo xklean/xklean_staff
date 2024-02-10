@@ -27,6 +27,7 @@ config="0.14.0"
 uuid = { version = "1.5.0", features = ["v4"] }
 sqlx ={version = "0.7.3",features = ["postgres","runtime-tokio-rustls","json"]}
 async-trait ="0.1"
+validator = {version = "0.16.1",features = ["derive"]}
 
 
 [build-dependencies]
@@ -34,7 +35,7 @@ tonic-build = "0.10.2"
 
 
 [package.metadata.profile.dev]
-tonic = {path= "src/proto" }
+tonic = {path= "server" }
 
 [dependencies.sea-orm-migration]
 version = "0.12.0"
@@ -49,3 +50,4 @@ features = [
 [[bin]]
 name = "migration"
 path = "src/migrator_init.rs"
+

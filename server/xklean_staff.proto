@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 package serverstaff;
 
 service StaffService{
-
+ rpc GetStaff(RequestStaffById)returns (ResponseStaffById);
 }
 
 message RequestStaffById{

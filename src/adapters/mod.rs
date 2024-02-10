@@ -1,3 +1,4 @@
-mod manager;
-mod repository;
-mod service;
+pub mod manager;
+pub mod repository;
+pub mod service;
+pub mod connection;
