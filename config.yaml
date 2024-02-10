@@ -1,6 +1,6 @@
 
 DATABASE_HOST: "localhost"
-DATABASE_USER: "postgress"
+DATABASE_USER: "postgres"
 DATABASE_PASSWORD: "root"
 DATABASE_NAME: "xklean_cleaning"
 DATABASE_SCHEMA: "cls_staff"
