@@ -1,11 +1,19 @@
-use sea_orm::{DatabaseConnection, DbErr};
+use async_trait::async_trait;
+use sea_orm::{ConnectOptions, Database, DatabaseConnection, DbErr};
+use sea_orm::*;
+
 use crate::adapters::connection::IConnection;
 
 #[derive(Default)]
-pub struct DBConn();
+pub struct DataBaseConn();
 
-impl IConnection for DBConn{
+#[async_trait]
+impl IConnection for DataBaseConn{
     async fn connect(db_url: String) -> Result<DatabaseConnection, DbErr> {
-        todo!()
+        let mut opts=ConnectOptions::new(db_url);
+        opts.sqlx_logging(false);
+        opts.set_schema_search_path("public");
+
+        return Database::connect(opts).await;
     }
 }

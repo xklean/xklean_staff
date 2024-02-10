@@ -12,7 +12,6 @@ pub struct Configuration {
     pub service_port: String,
 }
 
-
 impl Configuration {
     pub fn init_config() -> Configuration {
         let setting = Config::builder().
@@ -31,5 +30,17 @@ impl Configuration {
             service_host: map["service_host"].to_string(),
             service_port: map["service_port"].to_string(),
         };
+    }
+
+    fn get_connection_url(&self) -> String {
+        return format!("postgres://{}:{}@{}/{}?currentSchema={}",
+                       self.db_user,
+                       self.db_password,
+                       self.db_host,
+                       self.db_name, self.db_schema);
+    }
+
+    fn get_service_address(&self) -> String {
+        format!("{}:{}", self.service_host, self.service_port)
     }
 }
