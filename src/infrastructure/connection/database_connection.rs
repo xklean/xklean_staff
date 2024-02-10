@@ -9,7 +9,7 @@ pub struct DataBaseConn();
 
 #[async_trait]
 impl IConnection for DataBaseConn{
-    async fn connect(db_url: String) -> Result<DatabaseConnection, DbErr> {
+    async fn connect(&self,db_url: String) -> Result<DatabaseConnection, DbErr> {
         let mut opts=ConnectOptions::new(db_url);
         opts.sqlx_logging(false);
         opts.set_schema_search_path("public");

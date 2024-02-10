@@ -3,5 +3,5 @@ use sea_orm::{DatabaseConnection, DbErr};
 
 #[async_trait]
 pub trait IConnection{
-    async fn connect(db_url:String)->Result<DatabaseConnection,DbErr>;
+    async fn connect(&self,db_url:String)->Result<DatabaseConnection,DbErr>;
 }

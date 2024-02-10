@@ -1,14 +1,22 @@
+use std::sync::Arc;
+use config::Config;
 use tonic::{Request, Response, Status};
+use crate::config::configuration::Configuration;
 use crate::pb_staff;
 use crate::pb_staff::{RequestStaffById, ResponseStaffById};
 use crate::pb_staff::staff_service_server::{StaffService};
 
-pub struct StaffServiceApi();
+#[derive(Default,Clone)]
+pub struct StaffServiceApi{
+    config:Box<Arc<Configuration>>
+}
 
 
 impl StaffServiceApi{
-    pub fn new()->Self{
-        return StaffServiceApi()
+    pub fn new(cfg :Box<Arc<Configuration>>)->Self{
+        return StaffServiceApi{
+            config:cfg
+        }
     }
 }
 

@@ -32,7 +32,7 @@ impl Configuration {
         };
     }
 
-    fn get_connection_url(&self) -> String {
+    pub fn get_connection_url(&self) -> String {
         return format!("postgres://{}:{}@{}/{}?currentSchema={}",
                        self.db_user,
                        self.db_password,
@@ -40,7 +40,7 @@ impl Configuration {
                        self.db_name, self.db_schema);
     }
 
-    fn get_service_address(&self) -> String {
+    pub fn get_service_address(&self) -> String {
         format!("{}:{}", self.service_host, self.service_port)
     }
 }
