@@ -3,7 +3,7 @@
 use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(schema_name = "cls_staff", table_name = "tbl_staff_contract")]
+#[sea_orm(schema_name = "cls_staff", table_name = "tbl_staff_contact")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub staff_id: Uuid,

@@ -7,5 +7,5 @@ pub mod tbl_contact;
 pub mod tbl_contact_type;
 pub mod tbl_staff;
 pub mod tbl_staff_address;
-pub mod tbl_staff_contract;
+pub mod tbl_staff_contact;
 pub mod tbl_staff_type;

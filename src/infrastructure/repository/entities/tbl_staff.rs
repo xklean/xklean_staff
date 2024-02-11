@@ -10,7 +10,6 @@ pub struct Model {
     pub first_name: String,
     pub last_name: String,
     pub email_address: String,
-    pub address: String,
     pub vehicle_registration: Option<String>,
     pub staff_type_id: Uuid,
     pub contractor_id: Uuid,
@@ -21,8 +20,8 @@ pub struct Model {
 pub enum Relation {
     #[sea_orm(has_many = "super::tbl_staff_address::Entity")]
     TblStaffAddress,
-    #[sea_orm(has_many = "super::tbl_staff_contract::Entity")]
-    TblStaffContract,
+    #[sea_orm(has_many = "super::tbl_staff_contact::Entity")]
+    TblStaffContact,
     #[sea_orm(
         belongs_to = "super::tbl_staff_type::Entity",
         from = "Column::StaffTypeId",
@@ -39,9 +38,9 @@ impl Related<super::tbl_staff_address::Entity> for Entity {
     }
 }
 
-impl Related<super::tbl_staff_contract::Entity> for Entity {
+impl Related<super::tbl_staff_contact::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::TblStaffContract.def()
+        Relation::TblStaffContact.def()
     }
 }
 
@@ -53,10 +52,10 @@ impl Related<super::tbl_staff_type::Entity> for Entity {
 
 impl Related<super::tbl_contact_type::Entity> for Entity {
     fn to() -> RelationDef {
-        super::tbl_staff_contract::Relation::TblContactType.def()
+        super::tbl_staff_contact::Relation::TblContactType.def()
     }
     fn via() -> Option<RelationDef> {
-        Some(super::tbl_staff_contract::Relation::TblStaff.def().rev())
+        Some(super::tbl_staff_contact::Relation::TblStaff.def().rev())
     }
 }
 

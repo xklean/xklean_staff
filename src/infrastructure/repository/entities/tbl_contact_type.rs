@@ -15,8 +15,8 @@ pub struct Model {
 pub enum Relation {
     #[sea_orm(has_many = "super::tbl_contact::Entity")]
     TblContact,
-    #[sea_orm(has_many = "super::tbl_staff_contract::Entity")]
-    TblStaffContract,
+    #[sea_orm(has_many = "super::tbl_staff_contact::Entity")]
+    TblStaffContact,
 }
 
 impl Related<super::tbl_contact::Entity> for Entity {
@@ -25,19 +25,19 @@ impl Related<super::tbl_contact::Entity> for Entity {
     }
 }
 
-impl Related<super::tbl_staff_contract::Entity> for Entity {
+impl Related<super::tbl_staff_contact::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::TblStaffContract.def()
+        Relation::TblStaffContact.def()
     }
 }
 
 impl Related<super::tbl_staff::Entity> for Entity {
     fn to() -> RelationDef {
-        super::tbl_staff_contract::Relation::TblStaff.def()
+        super::tbl_staff_contact::Relation::TblStaff.def()
     }
     fn via() -> Option<RelationDef> {
         Some(
-            super::tbl_staff_contract::Relation::TblContactType
+            super::tbl_staff_contact::Relation::TblContactType
                 .def()
                 .rev(),
         )
