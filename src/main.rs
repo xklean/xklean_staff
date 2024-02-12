@@ -36,9 +36,10 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
     // get connection related url for primary database.
     let conn = DataBaseConn::default();
     let db_conn = match conn.connect(connection_url).await {
-        Ok(db) => db,
+        Ok(db) => Arc::new(db),
         Err(err) => panic!("{}", err)
     };
+
 
     let service_address = config.get_service_address();
     let api_server = StaffServiceApi::new(Box::new(config));

@@ -1,6 +1,4 @@
 use serde::{Deserialize, Serialize};
-use crate::adapters::entities::data_address::Address;
-use crate::adapters::entities::data_contact::Contact;
 
 #[derive(Serialize,Deserialize,Default)]
 pub struct  Staff{
