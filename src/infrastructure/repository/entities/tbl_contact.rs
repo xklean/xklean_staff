@@ -21,11 +21,19 @@ pub enum Relation {
         on_delete = "NoAction"
     )]
     TblContactType,
+    #[sea_orm(has_many = "super::tbl_staff_contact::Entity")]
+    TblStaffContact,
 }
 
 impl Related<super::tbl_contact_type::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::TblContactType.def()
+    }
+}
+
+impl Related<super::tbl_staff_contact::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::TblStaffContact.def()
     }
 }
 

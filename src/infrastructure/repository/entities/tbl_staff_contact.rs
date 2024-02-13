@@ -7,13 +7,22 @@ use sea_orm::entity::prelude::*;
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub staff_id: Uuid,
-    #[sea_orm(primary_key, auto_increment = false)]
     pub contact_type_id: Uuid,
     pub primary: bool,
+    #[sea_orm(primary_key, auto_increment = false)]
+    pub contact_id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
+    #[sea_orm(
+        belongs_to = "super::tbl_contact::Entity",
+        from = "Column::ContactId",
+        to = "super::tbl_contact::Column::Id",
+        on_update = "NoAction",
+        on_delete = "NoAction"
+    )]
+    TblContact,
     #[sea_orm(
         belongs_to = "super::tbl_contact_type::Entity",
         from = "Column::ContactTypeId",
@@ -30,6 +39,12 @@ pub enum Relation {
         on_delete = "NoAction"
     )]
     TblStaff,
+}
+
+impl Related<super::tbl_contact::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::TblContact.def()
+    }
 }
 
 impl Related<super::tbl_contact_type::Entity> for Entity {

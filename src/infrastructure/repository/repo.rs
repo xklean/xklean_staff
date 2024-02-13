@@ -1,9 +1,9 @@
 use async_trait::async_trait;
-use sea_orm::{DatabaseConnection,entity::*, query::*};
-use sea_orm::sea_query::all;
+use sea_orm::{DatabaseConnection, entity::*, query::*};
 use uuid::Uuid;
+use data::Contact;
 use crate::adapters::repository::IRepository;
-use entities::{prelude::*, tbl_staff};
+use entities::{prelude::*, tbl_staff, tbl_contact, tbl_contact_type};
 use crate::infrastructure::repository::entities;
 use crate::adapters::{data};
 use crate::adapters::errors::ServiceErr;
@@ -30,7 +30,7 @@ impl IRepository for Repository {
             .one(&self.conn)
             .await?;
 
-        let data_staff =  match staff {
+        let data_staff = match staff {
             Some(stf) => {
                 let data_result = data::Staff {
                     id,
@@ -48,21 +48,55 @@ impl IRepository for Repository {
                 Ok(data_result)
             }
             None => {
-               Err(ServiceErr("error in data".to_string()))
+                Err(ServiceErr("error in data".to_string()))
             }
         };
 
-        return data_staff
+        return data_staff;
     }
 
-    async fn get_contacts_staff_id(&self, staff_id: Uuid) -> Result<Vec<data::Contact>, ServiceErr> {
+    async fn get_contacts_staff_id(&self, staff_id: Uuid) -> Result<Vec<Contact>, ServiceErr> {
         let contacts_staff = TblStaffContact::find()
-            .filter(tbl_staff_contact::Column::StaffId.eq(&staff_id)).all(self.conn.as_ref())
+            .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone()))
+            .all(&self.conn)
             .await?;
 
-        for modl in contacts_staff{
+        let mut contacts: Vec<Contact> = Vec::new();
 
+        for stf_contact in contacts_staff {
+            let contact = TblContact::find()
+                .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone()))
+                .one(&self.conn)
+                .await?;
+
+            let mut data_contact:Contact = Contact::default();
+            match contact {
+                Some(con) => {
+                    data_contact.id = con.id;
+                    data_contact.contact = con.contact_value
+                }
+                None => continue
+            }
+
+            let contact_type = TblContactType::find()
+                .filter(tbl_contact_type::Column::Id.eq(stf_contact.contact_type_id.clone()))
+                .one(&self.conn)
+                .await?;
+
+            match contact_type {
+                Some(con_type)=>{
+                    data_contact.contact_type=con_type.contact_type;
+                    data_contact.contact_type_id=con_type.id
+                }
+                None =>()
+            }
+
+            contacts.push(data_contact);
         }
 
+        Ok(contacts)
     }
+
+
+
 }

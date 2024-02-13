@@ -20,6 +20,7 @@ mod adapters;
 mod config;
 mod application;
 mod infrastructure;
+mod helpers;
 
 
 pub mod pb_staff {

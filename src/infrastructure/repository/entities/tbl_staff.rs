@@ -50,13 +50,4 @@ impl Related<super::tbl_staff_type::Entity> for Entity {
     }
 }
 
-impl Related<super::tbl_contact_type::Entity> for Entity {
-    fn to() -> RelationDef {
-        super::tbl_staff_contact::Relation::TblContactType.def()
-    }
-    fn via() -> Option<RelationDef> {
-        Some(super::tbl_staff_contact::Relation::TblStaff.def().rev())
-    }
-}
-
 impl ActiveModelBehavior for ActiveModel {}
