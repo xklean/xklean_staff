@@ -2,7 +2,7 @@ use async_trait::async_trait;
 use crate::adapters::errors;
 
 #[async_trait]
-pub trait IRepository {
+pub trait IRepository :Send+Sync{
    /// Retrieves a staff member by their unique identifier.
    ///
    /// # Arguments
@@ -93,5 +93,5 @@ pub trait IRepository {
    /// # Ok(())
    /// # }
    /// ```
-   async fn get_address_staff_id(&self, staff_id: uuid::Uuid) -> Result<Vec<data::Staff>, errors::ServiceErr>;
+   async fn get_address_staff_id(&self, staff_id: uuid::Uuid) -> Result<Vec<data::Address>, errors::ServiceErr>;
 }
