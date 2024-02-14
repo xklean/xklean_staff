@@ -1,20 +1,22 @@
+use std::collections::HashMap;
 use std::sync::{Arc};
 use async_trait::async_trait;
 use sea_orm::{DatabaseConnection, entity::*, query::*};
 use uuid::Uuid;
 use data::Contact;
-use crate::adapters::repository::IRepository;
+use crate::adapters::repository::ISelectionRepository;
 use entities::{prelude::*,
                tbl_staff,
                tbl_contact,
                tbl_contact_type,
                tbl_staff_address,
                tbl_address};
-use crate::infrastructure::repository::entities;
 use crate::adapters::{data};
 use crate::adapters::data::{Address};
 use crate::adapters::errors::ServiceErr;
 use crate::infrastructure::repository::entities::tbl_staff_contact;
+use crate::adapters::types;
+
 
 #[derive(Default)]
 pub struct Repository {
@@ -30,8 +32,8 @@ impl Repository {
 }
 
 #[async_trait]
-impl IRepository for Repository {
-    async fn get_staff_by_id(&self, id: Uuid) -> Result<data::Staff, ServiceErr> {
+impl ISelectionRepository for Repository {
+    async fn get_staff_by_id(&self, id: Uuid) -> types::Response<Staff> {
         let staff = TblStaff::find()
             .filter(tbl_staff::Column::Id.eq(id.clone()))
             .one(self.conn.as_ref())
@@ -62,7 +64,7 @@ impl IRepository for Repository {
         return data_staff;
     }
 
-    async fn get_contacts_staff_id(&self, staff_id: Uuid) -> Result<Vec<Contact>, ServiceErr> {
+    async fn get_contacts_staff_id(&self, staff_id: Uuid) -> types::Response<Vec<Contact>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone()))
             .all(self.conn.as_ref())
@@ -104,7 +106,7 @@ impl IRepository for Repository {
         Ok(contacts)
     }
 
-    async fn get_address_staff_id(&self, staff_id: Uuid) -> Result<Vec<Address>, ServiceErr> {
+    async fn get_address_staff_id(&self, staff_id: Uuid) -> types::Response<Vec<Address>> {
         let staff_address = TblStaffAddress::find()
             .filter(tbl_staff_address::Column::StaffId.eq(staff_id.clone())
                 .and(tbl_staff_address::Column::Primary.eq(true)))
@@ -138,5 +140,79 @@ impl IRepository for Repository {
         }
 
         Ok(address_list)
+    }
+
+    async fn get_staffs_ids(&self, ids: Vec<Uuid>) -> crate::adapters::types::Response<Vec<Staff>> {
+        let staffs_list = TblStaff::find()
+            .filter(tbl_staff::Column::Id.is_in(ids.clone()))
+            .all(self.conn.as_ref())
+            .await?;
+
+        let mut staff_list: Vec<data::Staff> = Vec::new();
+
+        for staff in staffs_list {
+            let data_staff = data::Staff {
+                id: staff.id,
+                first_name: staff.first_name,
+                last_name: staff.last_name,
+                email_address: staff.email_address,
+                vehicle_registration: staff.vehicle_registration,
+                staff_type_id: staff.staff_type_id,
+                contractor_id: staff.contractor_id,
+                sex: staff.sex,
+                contacts: Vec::new(),
+                address: Vec::new(),
+            };
+            staff_list.push(data_staff);
+        }
+
+        Ok(staff_list)
+    }
+
+    async fn get_contacts_staff_ids(&self, staff_ids: Vec<Uuid>) -> crate::adapters::types::Response<HashMap<String,Contact>> {
+        let contacts_staff = TblStaffContact::find()
+            .filter(tbl_staff_contact::Column::StaffId.is_in(staff_ids.clone())
+                .and(tbl_staff_contact::Column::Primary.eq(true)))
+            .all(self.conn.as_ref())
+            .await?;
+
+        let mut contact_map:HashMap<String,data::Contact> =HashMap::new();
+
+        for stf_contact in contacts_staff{
+            let contact = TblContact::find()
+                .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone()))
+                .one(self.conn.as_ref())
+                .await?;
+
+            let mut data_contact: Contact = Contact::default();
+            match contact {
+                Some(con) => {
+                    data_contact.id = con.id;
+                    data_contact.contact = con.contact_value
+                }
+                None => continue
+            }
+
+            let contact_type = TblContactType::find()
+                .filter(tbl_contact_type::Column::Id.eq(stf_contact.contact_type_id.clone()))
+                .one(self.conn.as_ref())
+                .await?;
+
+            match contact_type {
+                Some(con_type) => {
+                    data_contact.contact_type = con_type.contact_type;
+                    data_contact.contact_type_id = con_type.id
+                }
+                None => ()
+            }
+
+            contact_map.insert(stf_contact.staff_id.to_string(), data_contact);
+        }
+
+        Ok(contact_map)
+    }
+
+    async fn get_address_staff_ids(&self, staff_ids: Vec<Uuid>) -> crate::adapters::types::Response<Vec<Address>> {
+        todo!()
     }
 }
