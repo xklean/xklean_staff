@@ -33,7 +33,9 @@ impl Repository {
 
 #[async_trait]
 impl ISelectionRepository for Repository {
-    async fn get_staff_by_id(&self, id: Uuid) -> types::Response<Staff> {
+    async fn get_staff_by_id(
+        &self,
+        id: Uuid) -> types::Response<Staff> {
         let staff = TblStaff::find()
             .filter(tbl_staff::Column::Id.eq(id.clone()))
             .one(self.conn.as_ref())
@@ -64,7 +66,9 @@ impl ISelectionRepository for Repository {
         return data_staff;
     }
 
-    async fn get_contacts_staff_id(&self, staff_id: Uuid) -> types::Response<Vec<Contact>> {
+    async fn get_contacts_staff_id(
+        &self,
+        staff_id: Uuid) -> types::Response<Vec<Contact>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone()))
             .all(self.conn.as_ref())
@@ -106,7 +110,9 @@ impl ISelectionRepository for Repository {
         Ok(contacts)
     }
 
-    async fn get_address_staff_id(&self, staff_id: Uuid) -> types::Response<Vec<Address>> {
+    async fn get_address_staff_id(
+        &self,
+        staff_id: Uuid) -> types::Response<Vec<Address>> {
         let staff_address = TblStaffAddress::find()
             .filter(tbl_staff_address::Column::StaffId.eq(staff_id.clone())
                 .and(tbl_staff_address::Column::Primary.eq(true)))
@@ -142,7 +148,12 @@ impl ISelectionRepository for Repository {
         Ok(address_list)
     }
 
-    async fn get_staffs_ids(&self, ids: Vec<Uuid>) -> crate::adapters::types::Response<Vec<Staff>> {
+    //----------------------------------------------------------------------------
+    // get staff of given staff ids and store them against staff within the map.
+    //----------------------------------------------------------------------------
+    async fn get_staffs_ids(
+        &self,
+        ids: Vec<Uuid>) -> types::Response<Vec<Staff>> {
         let staffs_list = TblStaff::find()
             .filter(tbl_staff::Column::Id.is_in(ids.clone()))
             .all(self.conn.as_ref())
@@ -169,16 +180,21 @@ impl ISelectionRepository for Repository {
         Ok(staff_list)
     }
 
-    async fn get_contacts_staff_ids(&self, staff_ids: Vec<Uuid>) -> crate::adapters::types::Response<HashMap<String,Contact>> {
+    //----------------------------------------------------------------------------
+    // get contact of given staff ids and store them against staff within the map.
+    //----------------------------------------------------------------------------
+    async fn get_contacts_staff_ids(
+        &self,
+        staff_ids: Vec<Uuid>) -> types::Response<HashMap<String, Contact>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.is_in(staff_ids.clone())
                 .and(tbl_staff_contact::Column::Primary.eq(true)))
             .all(self.conn.as_ref())
             .await?;
 
-        let mut contact_map:HashMap<String,data::Contact> =HashMap::new();
+        let mut contact_map: HashMap<String, data::Contact> = HashMap::new();
 
-        for stf_contact in contacts_staff{
+        for stf_contact in contacts_staff {
             let contact = TblContact::find()
                 .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone()))
                 .one(self.conn.as_ref())
@@ -212,7 +228,45 @@ impl ISelectionRepository for Repository {
         Ok(contact_map)
     }
 
-    async fn get_address_staff_ids(&self, staff_ids: Vec<Uuid>) -> crate::adapters::types::Response<Vec<Address>> {
-        todo!()
+    //----------------------------------------------------------------------------
+    // get address of given staff ids and store them against staff within the map.
+    //----------------------------------------------------------------------------
+    async fn get_address_staff_ids(
+        &self,
+        staff_ids: Vec<Uuid>) -> types::Response<Vec<Address>> {
+        let staff_address_list = TblStaffAddress::find()
+            .filter(tbl_staff_address::Column::StaffId.is_in(staff_ids.clone())
+                .and(tbl_staff_address::Column::Primary.eq(true)))
+            .all(self.conn.as_ref()).await?;
+
+        let mut address_list: Vec<Address> = Vec::new();
+
+        for stf_add in staff_address_list{
+
+            let addresses_list = TblAddress::find()
+                .filter(tbl_address::Column::Id.eq(stf_add.address_id.clone()))
+                .one(self.conn.as_ref())
+                .await?;
+
+            let data_address: Address;
+
+            match addresses_list {
+                Some(addr) => {
+                    data_address = Address {
+                        id: addr.id,
+                        street_name: addr.street_name,
+                        suburb: addr.suberb,
+                        post_code: addr.post_code,
+                        state: addr.state,
+                        country: addr.country,
+                    };
+
+                    address_list.push(data_address)
+                }
+                None => continue
+            }
+        }
+
+        Ok(address_list)
     }
 }
