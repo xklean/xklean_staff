@@ -33,6 +33,10 @@ impl Repository {
 
 #[async_trait]
 impl ISelectionRepository for Repository {
+
+    //---------------------------------------------------------------------------
+    //get staff by staff id
+    //---------------------------------------------------------------------------
     async fn get_staff_by_id(
         &self,
         id: Uuid) -> types::Response<Staff> {
@@ -66,6 +70,9 @@ impl ISelectionRepository for Repository {
         return data_staff;
     }
 
+    //---------------------------------------------------------------------------
+    //get contact by staff id
+    //---------------------------------------------------------------------------
     async fn get_contacts_staff_id(
         &self,
         staff_id: Uuid) -> types::Response<Vec<Contact>> {
@@ -110,6 +117,9 @@ impl ISelectionRepository for Repository {
         Ok(contacts)
     }
 
+    //---------------------------------------------------------------------------
+    //get address by staff id
+    //---------------------------------------------------------------------------
     async fn get_address_staff_id(
         &self,
         staff_id: Uuid) -> types::Response<Vec<Address>> {
