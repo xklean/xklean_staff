@@ -14,6 +14,9 @@ pub struct Model {
     pub staff_type_id: Uuid,
     pub contractor_id: Uuid,
     pub sex: String,
+    pub active: bool,
+    #[sea_orm(column_type = "Decimal(Some((7, 2)))")]
+    pub hourly_rate: Decimal,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

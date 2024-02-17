@@ -1,2 +1,2 @@
 
-type Response<T> = Result<T, ServiceErr>;
+pub type Response<T> = Result<T, ServiceErr>;

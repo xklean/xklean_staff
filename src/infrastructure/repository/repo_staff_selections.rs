@@ -16,6 +16,7 @@ use crate::adapters::data::{Address};
 use crate::adapters::errors::ServiceErr;
 use crate::infrastructure::repository::entities::tbl_staff_contact;
 use crate::adapters::types;
+use num_traits::cast::ToPrimitive;
 
 
 #[derive(Default)]
@@ -47,6 +48,9 @@ impl ISelectionRepository for Repository {
 
         let data_staff = match staff {
             Some(stf) => {
+
+               let hour_rate = stf.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
+
                 let data_result = data::Staff {
                     id,
                     first_name: stf.first_name,
@@ -56,6 +60,8 @@ impl ISelectionRepository for Repository {
                     staff_type_id: stf.staff_type_id,
                     contractor_id: stf.contractor_id,
                     sex: stf.sex,
+                    hourly_rate: hour_rate,
+                    active: stf.active,
                     contacts: vec![],
                     address: vec![],
                 };
@@ -172,6 +178,8 @@ impl ISelectionRepository for Repository {
         let mut staff_list: Vec<data::Staff> = Vec::new();
 
         for staff in staffs_list {
+            let hour_rate = staff.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
+
             let data_staff = data::Staff {
                 id: staff.id,
                 first_name: staff.first_name,
@@ -181,6 +189,8 @@ impl ISelectionRepository for Repository {
                 staff_type_id: staff.staff_type_id,
                 contractor_id: staff.contractor_id,
                 sex: staff.sex,
+                hourly_rate: hour_rate,
+                active: staff.active,
                 contacts: Vec::new(),
                 address: Vec::new(),
             };

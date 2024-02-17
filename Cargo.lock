@@ -3535,6 +3535,7 @@ dependencies = [
  "futures",
  "grade",
  "mediator",
+ "num-traits",
  "prost",
  "prost-types",
  "sea-orm",

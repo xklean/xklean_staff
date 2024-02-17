@@ -1,5 +1,5 @@
 
-#[derive(Serialize,Deserialize,Default)]
+#[derive(Serialize,Deserialize,Default,Clone)]
 pub struct Address{
     pub id:uuid::Uuid,
     pub street_name :String,
