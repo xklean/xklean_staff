@@ -6,4 +6,6 @@ pub trait IMutationRepository :Send+Sync{
     async fn create_staff(&self,staff:Box<Arc<data::Staff>>)->types::Response<Uuid>;
     async fn create_contacts(&self,staff_id:Uuid,contacts:Box<Arc<Vec<data::Contact>>>)->types::Response<bool>;
     async fn create_address(&self,staff_id:Uuid,address:Box<Arc<Vec<data::Address>>>)->types::Response<bool>;
+    async fn create_staff_type(&self,staff_type:Box<Arc<data::StaffType>>)->types::Response<bool>;
+    async fn create_contact_type(&self,contact_type:Box<Arc<data::ContactType>>)->types::Response<bool>;
 }

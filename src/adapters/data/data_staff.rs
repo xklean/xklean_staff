@@ -8,6 +8,7 @@ pub struct  Staff{
     pub email_address:String,
     pub vehicle_registration:Option<String>,
     pub staff_type_id:uuid::Uuid,
+    pub staff_type:String,
     pub contractor_id:uuid::Uuid,
     pub sex:String,
     pub hourly_rate:f32,

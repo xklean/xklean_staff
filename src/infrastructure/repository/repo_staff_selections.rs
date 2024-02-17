@@ -14,7 +14,7 @@ use entities::{prelude::*,
 use crate::adapters::{data};
 use crate::adapters::data::{Address};
 use crate::adapters::errors::ServiceErr;
-use crate::infrastructure::repository::entities::tbl_staff_contact;
+use crate::infrastructure::repository::entities::{tbl_staff_contact,tbl_staff_type};
 use crate::adapters::types;
 use num_traits::cast::ToPrimitive;
 
@@ -34,7 +34,6 @@ impl Repository {
 
 #[async_trait]
 impl ISelectionRepository for Repository {
-
     //---------------------------------------------------------------------------
     //get staff by staff id
     //---------------------------------------------------------------------------
@@ -48,16 +47,16 @@ impl ISelectionRepository for Repository {
 
         let data_staff = match staff {
             Some(stf) => {
+                let hour_rate = stf.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
 
-               let hour_rate = stf.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
-
-                let data_result = data::Staff {
+                let mut data_result = data::Staff {
                     id,
                     first_name: stf.first_name,
                     last_name: stf.last_name,
                     email_address: stf.email_address,
                     vehicle_registration: stf.vehicle_registration,
                     staff_type_id: stf.staff_type_id,
+                    staff_type: "".to_string(),
                     contractor_id: stf.contractor_id,
                     sex: stf.sex,
                     hourly_rate: hour_rate,
@@ -65,6 +64,17 @@ impl ISelectionRepository for Repository {
                     contacts: vec![],
                     address: vec![],
                 };
+
+                let staff_type = TblStaffType::find()
+                    .filter(tbl_staff_type::Column::Id
+                        .eq(stf.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+
+                match staff_type {
+                    Some(stf_type)=>{
+                        data_result.staff_type=stf_type.type_name
+                    }
+                    None=>()
+                }
 
                 Ok(data_result)
             }
@@ -153,6 +163,7 @@ impl ISelectionRepository for Repository {
                         post_code: addr.post_code,
                         state: addr.state,
                         country: addr.country,
+                        primary: staff_addr.primary,
                     };
 
                     address_list.push(data_address)
@@ -180,13 +191,14 @@ impl ISelectionRepository for Repository {
         for staff in staffs_list {
             let hour_rate = staff.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
 
-            let data_staff = data::Staff {
+            let mut data_staff = data::Staff {
                 id: staff.id,
                 first_name: staff.first_name,
                 last_name: staff.last_name,
                 email_address: staff.email_address,
                 vehicle_registration: staff.vehicle_registration,
                 staff_type_id: staff.staff_type_id,
+                staff_type: "".to_string(),
                 contractor_id: staff.contractor_id,
                 sex: staff.sex,
                 hourly_rate: hour_rate,
@@ -194,6 +206,17 @@ impl ISelectionRepository for Repository {
                 contacts: Vec::new(),
                 address: Vec::new(),
             };
+
+            let staff_type = TblStaffType::find()
+                .filter(tbl_staff_type::Column::Id
+                    .eq(staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+
+            match staff_type {
+                Some(stf_type)=>{
+                    data_staff.staff_type=stf_type.type_name
+                }
+                None=>()            }
+
             staff_list.push(data_staff);
         }
 
@@ -261,8 +284,7 @@ impl ISelectionRepository for Repository {
 
         let mut address_list: Vec<Address> = Vec::new();
 
-        for stf_add in staff_address_list{
-
+        for stf_add in staff_address_list {
             let addresses_list = TblAddress::find()
                 .filter(tbl_address::Column::Id.eq(stf_add.address_id.clone()))
                 .one(self.conn.as_ref())
@@ -279,6 +301,7 @@ impl ISelectionRepository for Repository {
                         post_code: addr.post_code,
                         state: addr.state,
                         country: addr.country,
+                        primary:stf_add.primary
                     };
 
                     address_list.push(data_address)
