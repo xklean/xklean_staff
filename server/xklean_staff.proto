@@ -4,14 +4,60 @@ import "google/protobuf/timestamp.proto";
 
 package serverstaff;
 
-service StaffService{
- rpc GetStaff(RequestStaffById)returns (ResponseStaffById);
+service StaffService {
+    rpc GetStaffByStaffId (RequestStaffById) returns (ResponseStaffById);
+
 }
 
-message RequestStaffById{
+message RequestStaffById {
     string id = 1;
 }
 
-message ResponseStaffById{
-    google.protobuf.Timestamp created_at = 1;
+message ResponseStaffById {
+    Staff staff = 1;
+}
+
+
+message Staff {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string email_address = 4;
+    string vehicle_registration = 5;
+    string staff_type_id = 6;
+    string staff_type = 7;
+    string contractor_id = 8;
+    string sex = 9;
+    float hourly_rate = 10;
+    bool active = 11;
+    repeated Address address = 12;
+    repeated Contact contacts = 13;
+}
+
+message Contact{
+    string id = 1;
+    string contact_type_id = 2;
+    string contact_type = 3;
+    string contact = 4;
+    bool primary = 5;
+}
+
+message Address{
+    string id = 1;
+    string street_name = 2;
+    string suburb = 3;
+    string post_code = 4;
+    string state = 5;
+    string country = 6;
+    bool  primary = 7;
+}
+
+message ContactType{
+    string id = 1;
+    string contact_type = 2;
+}
+
+message StaffType {
+    string id = 1;
+    string staff_type = 2;
 }
