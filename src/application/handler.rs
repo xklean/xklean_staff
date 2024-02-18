@@ -22,27 +22,39 @@ impl StaffServiceApi{
 
 #[tonic::async_trait]
 impl StaffService for StaffServiceApi {
-    async fn get_staff_by_staff_id(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
+    async fn get_staff_by_staff_id(
+        &self,
+        request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
         todo!()
     }
 
-    async fn get_address_by_staff_id(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseAddressByStaffId>, Status> {
+    async fn get_address_by_staff_id(
+        &self,
+        request: Request<RequestStaffById>) -> Result<Response<ResponseAddressByStaffId>, Status> {
         todo!()
     }
 
-    async fn get_contacts_by_staff_id(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseContactsByStaffId>, Status> {
+    async fn get_contacts_by_staff_id(
+        &self,
+        request: Request<RequestStaffById>) -> Result<Response<ResponseContactsByStaffId>, Status> {
         todo!()
     }
 
-    async fn get_all_staff_type(&self, request: Request<RequestStaffTypes>) -> Result<Response<ResponseStaffTypes>, Status> {
+    async fn get_all_staff_type(
+        &self,
+        request: Request<RequestStaffTypes>) -> Result<Response<ResponseStaffTypes>, Status> {
         todo!()
     }
 
-    async fn get_all_contact_type(&self, request: Request<RequestContactTypes>) -> Result<Response<ResponseContactTypes>, Status> {
+    async fn get_all_contact_type(
+        &self,
+        request: Request<RequestContactTypes>) -> Result<Response<ResponseContactTypes>, Status> {
         todo!()
     }
 
-    async fn upsert_staff(&self, request: Request<RequestStaffUpsert>) -> Result<Response<ResponseStaffUpsert>, Status> {
+    async fn upsert_staff(
+        &self,
+        request: Request<RequestStaffUpsert>) -> Result<Response<ResponseStaffUpsert>, Status> {
         todo!()
     }
 }
