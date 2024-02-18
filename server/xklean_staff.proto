@@ -6,17 +6,20 @@ package serverstaff;
 
 service StaffService {
     rpc GetStaffByStaffId (RequestStaffById) returns (ResponseStaffById);
-    rpc GetAddressByStaffId(RequestStaffById) returns (ResponseAddressByStaffId);
-    rpc GetContactsByStaffId(RequestStaffById) returns (ResponseContactsByStaffId);
-    rpc GetAllStaffType(RequestStaffTypes) returns (ResponseStaffTypes);
-    rpc GetAllContactType(RequestContactTypes) returns (ResponseContactTypes);
+    rpc GetAddressByStaffId (RequestStaffById) returns (ResponseAddressByStaffId);
+    rpc GetContactsByStaffId (RequestStaffById) returns (ResponseContactsByStaffId);
+    rpc GetAllStaffType (RequestStaffTypes) returns (ResponseStaffTypes);
+    rpc GetAllContactType (RequestContactTypes) returns (ResponseContactTypes);
+    rpc UpsertStaff (RequestStaffUpsert) returns (ResponseStaffUpsert);
 }
 
 message RequestStaffById {
-    string id = 1;
+    string tenant_id = 1;
+    string id = 2;
 }
 
-message ResponseStaffById {
+message ResponseStaffById
+{
     Staff staff = 1;
 }
 
@@ -28,18 +31,27 @@ message ResponseContactsByStaffId {
     repeated Contact contacts = 1;
 }
 
-message RequestStaffTypes{}
+message RequestStaffTypes {}
 
-message ResponseStaffTypes{
+message ResponseStaffTypes {
     repeated StaffType staff_types = 1;
 }
 
-message RequestContactTypes{}
+message RequestContactTypes {}
 
-message ResponseContactTypes{
+message ResponseContactTypes {
     repeated ContactType contact_types = 1;
 }
 
+message RequestStaffUpsert {
+    string tenant_id = 1;
+    Staff staff = 2;
+}
+
+message ResponseStaffUpsert {
+    string tenant_id = 1;
+    string staff_id = 2;
+}
 
 message Staff {
     string id = 1;
@@ -57,7 +69,7 @@ message Staff {
     repeated Contact contacts = 13;
 }
 
-message Contact{
+message Contact {
     string id = 1;
     string contact_type_id = 2;
     string contact_type = 3;
@@ -65,17 +77,17 @@ message Contact{
     bool primary = 5;
 }
 
-message Address{
+message Address {
     string id = 1;
     string street_name = 2;
     string suburb = 3;
     string post_code = 4;
     string state = 5;
     string country = 6;
-    bool  primary = 7;
+    bool primary = 7;
 }
 
-message ContactType{
+message ContactType {
     string id = 1;
     string contact_type = 2;
 }
