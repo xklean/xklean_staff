@@ -8,7 +8,7 @@ pub struct Model {
     #[sea_orm(primary_key, auto_increment = false)]
     pub id: Uuid,
     pub street_name: String,
-    pub suberb: String,
+    pub suburb: String,
     pub post_code: String,
     pub state: String,
     pub country: String,

@@ -159,7 +159,7 @@ impl ISelectionRepository for Repository {
                     data_address = Address {
                         id: addr.id,
                         street_name: addr.street_name,
-                        suburb: addr.suberb,
+                        suburb: addr.suburb,
                         post_code: addr.post_code,
                         state: addr.state,
                         country: addr.country,
@@ -297,7 +297,7 @@ impl ISelectionRepository for Repository {
                     data_address = Address {
                         id: addr.id,
                         street_name: addr.street_name,
-                        suburb: addr.suberb,
+                        suburb: addr.suburb,
                         post_code: addr.post_code,
                         state: addr.state,
                         country: addr.country,

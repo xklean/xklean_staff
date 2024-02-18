@@ -107,7 +107,7 @@ impl IMutationRepository for Repository {
             let address_model = tbl_address::ActiveModel {
                 id: Set(address_id.to_owned()),
                 street_name: Set(add.street_name.to_owned()),
-                suberb: Set(add.suburb.to_owned()),
+                suburb: Set(add.suburb.to_owned()),
                 post_code: Set(add.post_code.to_owned()),
                 state: Set(add.state.to_owned()),
                 country: Set(add.country.to_owned()),
