@@ -1,7 +1,7 @@
 use num_traits::FromPrimitive;
 use sea_orm::ActiveValue::Set;
 use sea_orm::prelude::Decimal;
-use crate::adapters::data::{ContactType, Staff, StaffType};
+use crate::adapters::entites::{ContactTypeEntity, StaffEntity, StaffTypeEntity};
 use crate::adapters::repository::IMutationRepository;
 use crate::adapters::types::Response;
 
@@ -12,11 +12,11 @@ impl IMutationRepository for Repository {
     //---------------------------------------------------------------------------
     async fn create_staff(
         &self,
-        staff: Box<Arc<Staff>>) -> types::Response<Uuid> {
+        staff: Box<Arc<StaffEntity>>) -> types::Response<Uuid> {
         let stf = (**staff).clone();
 
-        let id_func = || -> uuid::Uuid{
-            if stf.id == uuid::Uuid::default() {
+        let id_func = || -> Uuid{
+            if stf.id == Uuid::default() {
                 return stf.id.clone();
             }
 
@@ -75,12 +75,12 @@ impl IMutationRepository for Repository {
     async fn upsert_contacts(
         &self,
         staff_id: Uuid,
-        contacts: Box<Arc<Vec<Contact>>>) -> Response<bool> {
+        contacts: Box<Arc<Vec<ContactEntity>>>) -> Response<bool> {
         let contacts_list = &**contacts;
 
         for con in contacts_list {
-            let id_func = || -> uuid::Uuid{
-                if con.id == uuid::Uuid::default() {
+            let id_func = || -> Uuid{
+                if con.id == Uuid::default() {
                     return con.id.clone();
                 }
 
@@ -150,7 +150,7 @@ impl IMutationRepository for Repository {
     async fn upsert_address(
         &self,
         staff_id: Uuid,
-        address: Box<Arc<Vec<Address>>>) -> Response<bool> {
+        address: Box<Arc<Vec<AddressEntity>>>) -> Response<bool> {
         let address = &**address;
 
         for add in address {
@@ -229,7 +229,7 @@ impl IMutationRepository for Repository {
     //---------------------------------------------------------------------------
     async fn upsert_staff_type(
         &self,
-        staff_type: Box<Arc<StaffType>>) -> Response<bool> {
+        staff_type: Box<Arc<StaffTypeEntity>>) -> Response<bool> {
         let stf_type = &**staff_type;
 
         let id_func = || -> uuid::Uuid{
@@ -273,7 +273,7 @@ impl IMutationRepository for Repository {
     //---------------------------------------------------------------------------
     async fn upsert_contact_type(
         &self,
-        contact_type: Box<Arc<ContactType>>) -> Response<bool> {
+        contact_type: Box<Arc<ContactTypeEntity>>) -> Response<bool> {
         let cont_type = &**contact_type;
 
         let id_func = || -> uuid::Uuid{

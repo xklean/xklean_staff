@@ -1,6 +1,6 @@
 
 #[derive(Serialize,Deserialize,Default,Clone)]
-pub struct Address{
+pub struct AddressEntity {
     pub id:uuid::Uuid,
     pub street_name :String,
     pub suburb:String,

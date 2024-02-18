@@ -3,7 +3,7 @@ use std::sync::{Arc};
 use async_trait::async_trait;
 use sea_orm::{DatabaseConnection, entity::*, query::*};
 use uuid::Uuid;
-use data::Contact;
+use entites::ContactEntity;
 use crate::adapters::repository::ISelectionRepository;
 use entities::{prelude::*,
                tbl_staff,
@@ -11,8 +11,8 @@ use entities::{prelude::*,
                tbl_contact_type,
                tbl_staff_address,
                tbl_address};
-use crate::adapters::{data};
-use crate::adapters::data::{Address};
+use crate::adapters::{entites};
+use crate::adapters::entites::{AddressEntity};
 use crate::adapters::errors::ServiceErr;
 use crate::infrastructure::repository::entities::{tbl_staff_contact,tbl_staff_type};
 use crate::adapters::types;
@@ -39,7 +39,7 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_staff_by_id(
         &self,
-        id: Uuid) -> types::Response<Staff> {
+        id: Uuid) -> types::Response<StaffEntity> {
         let staff = TblStaff::find()
             .filter(tbl_staff::Column::Id.eq(id.clone()))
             .one(self.conn.as_ref())
@@ -49,7 +49,7 @@ impl ISelectionRepository for Repository {
             Some(stf) => {
                 let hour_rate = stf.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
 
-                let mut data_result = data::Staff {
+                let mut data_result = entites::StaffEntity {
                     id,
                     first_name: stf.first_name,
                     last_name: stf.last_name,
@@ -61,8 +61,6 @@ impl ISelectionRepository for Repository {
                     sex: stf.sex,
                     hourly_rate: hour_rate,
                     active: stf.active,
-                    contacts: vec![],
-                    address: vec![],
                 };
 
                 let staff_type = TblStaffType::find()
@@ -79,7 +77,7 @@ impl ISelectionRepository for Repository {
                 Ok(data_result)
             }
             None => {
-                Err(ServiceErr("error in data".to_string()))
+                Err(ServiceErr("error in entites".to_string()))
             }
         };
 
@@ -91,13 +89,13 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_contacts_staff_id(
         &self,
-        staff_id: Uuid) -> types::Response<Vec<Contact>> {
+        staff_id: Uuid) -> types::Response<Vec<ContactEntity>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone()))
             .all(self.conn.as_ref())
             .await?;
 
-        let mut contacts: Vec<Contact> = Vec::new();
+        let mut contacts: Vec<ContactEntity> = Vec::new();
 
         for stf_contact in contacts_staff {
             let contact = TblContact::find()
@@ -105,7 +103,7 @@ impl ISelectionRepository for Repository {
                 .one(self.conn.as_ref())
                 .await?;
 
-            let mut data_contact: Contact = Contact::default();
+            let mut data_contact: ContactEntity = ContactEntity::default();
             match contact {
                 Some(con) => {
                     data_contact.id = con.id;
@@ -138,13 +136,13 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_address_staff_id(
         &self,
-        staff_id: Uuid) -> types::Response<Vec<Address>> {
+        staff_id: Uuid) -> types::Response<Vec<AddressEntity>> {
         let staff_address = TblStaffAddress::find()
             .filter(tbl_staff_address::Column::StaffId.eq(staff_id.clone())
                 .and(tbl_staff_address::Column::Primary.eq(true)))
             .all(self.conn.as_ref()).await?;
 
-        let mut address_list: Vec<Address> = Vec::new();
+        let mut address_list: Vec<AddressEntity> = Vec::new();
 
         for staff_addr in staff_address {
             let addresses = TblAddress::find()
@@ -152,11 +150,11 @@ impl ISelectionRepository for Repository {
                 .one(self.conn.as_ref())
                 .await?;
 
-            let data_address: Address;
+            let data_address: AddressEntity;
 
             match addresses {
                 Some(addr) => {
-                    data_address = Address {
+                    data_address = AddressEntity {
                         id: addr.id,
                         street_name: addr.street_name,
                         suburb: addr.suburb,
@@ -180,18 +178,18 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_staffs_ids(
         &self,
-        ids: Vec<Uuid>) -> types::Response<Vec<Staff>> {
+        ids: Vec<Uuid>) -> types::Response<Vec<StaffEntity>> {
         let staffs_list = TblStaff::find()
             .filter(tbl_staff::Column::Id.is_in(ids.clone()))
             .all(self.conn.as_ref())
             .await?;
 
-        let mut staff_list: Vec<data::Staff> = Vec::new();
+        let mut staff_list: Vec<entites::StaffEntity> = Vec::new();
 
         for staff in staffs_list {
             let hour_rate = staff.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
 
-            let mut data_staff = data::Staff {
+            let mut data_staff = entites::StaffEntity {
                 id: staff.id,
                 first_name: staff.first_name,
                 last_name: staff.last_name,
@@ -203,8 +201,6 @@ impl ISelectionRepository for Repository {
                 sex: staff.sex,
                 hourly_rate: hour_rate,
                 active: staff.active,
-                contacts: Vec::new(),
-                address: Vec::new(),
             };
 
             let staff_type = TblStaffType::find()
@@ -228,14 +224,14 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_contacts_staff_ids(
         &self,
-        staff_ids: Vec<Uuid>) -> types::Response<HashMap<String, Contact>> {
+        staff_ids: Vec<Uuid>) -> types::Response<HashMap<String, ContactEntity>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.is_in(staff_ids.clone())
                 .and(tbl_staff_contact::Column::Primary.eq(true)))
             .all(self.conn.as_ref())
             .await?;
 
-        let mut contact_map: HashMap<String, data::Contact> = HashMap::new();
+        let mut contact_map: HashMap<String, entites::ContactEntity> = HashMap::new();
 
         for stf_contact in contacts_staff {
             let contact = TblContact::find()
@@ -243,7 +239,7 @@ impl ISelectionRepository for Repository {
                 .one(self.conn.as_ref())
                 .await?;
 
-            let mut data_contact: Contact = Contact::default();
+            let mut data_contact: ContactEntity = ContactEntity::default();
             match contact {
                 Some(con) => {
                     data_contact.id = con.id;
@@ -276,13 +272,13 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_address_staff_ids(
         &self,
-        staff_ids: Vec<Uuid>) -> types::Response<Vec<Address>> {
+        staff_ids: Vec<Uuid>) -> types::Response<Vec<AddressEntity>> {
         let staff_address_list = TblStaffAddress::find()
             .filter(tbl_staff_address::Column::StaffId.is_in(staff_ids.clone())
                 .and(tbl_staff_address::Column::Primary.eq(true)))
             .all(self.conn.as_ref()).await?;
 
-        let mut address_list: Vec<Address> = Vec::new();
+        let mut address_list: Vec<AddressEntity> = Vec::new();
 
         for stf_add in staff_address_list {
             let addresses_list = TblAddress::find()
@@ -290,11 +286,11 @@ impl ISelectionRepository for Repository {
                 .one(self.conn.as_ref())
                 .await?;
 
-            let data_address: Address;
+            let data_address: AddressEntity;
 
             match addresses_list {
                 Some(addr) => {
-                    data_address = Address {
+                    data_address = AddressEntity {
                         id: addr.id,
                         street_name: addr.street_name,
                         suburb: addr.suburb,

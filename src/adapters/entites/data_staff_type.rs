@@ -1,5 +1,6 @@
+
 #[derive(Deserialize,Serialize,Default,Clone)]
-pub struct ContactType {
+pub struct StaffTypeEntity {
     pub id: uuid::Uuid,
-    pub contact_type:String,
+    pub staff_type:String,
 }
