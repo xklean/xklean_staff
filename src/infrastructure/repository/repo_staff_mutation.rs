@@ -4,6 +4,7 @@ use sea_orm::prelude::Decimal;
 use crate::adapters::entites::{ContactTypeEntity, StaffEntity, StaffTypeEntity};
 use crate::adapters::repository::IMutationRepository;
 use crate::adapters::types::Response;
+use chrono::{Utc};
 
 #[async_trait]
 impl IMutationRepository for Repository {
@@ -37,11 +38,12 @@ impl IMutationRepository for Repository {
             staff_model.active=Set(stf.active.to_owned());
             staff_model.sex=Set(stf.sex.to_owned());
             staff_model.hourly_rate=Set(hour_rate.to_owned());
-            staff_model.contractor_id=Set(stf.contractor_id.to_owned());
+            staff_model.tenant_id=Set(stf.tenant_id.to_owned());
             staff_model.vehicle_registration=Set(stf.vehicle_registration.to_owned());
             staff_model.email_address=Set(stf.email_address.to_owned());
             staff_model.last_name=Set(stf.last_name.to_owned());
             staff_model.first_name=Set(stf.first_name.to_owned());
+            staff_model.operation_user_id=Set(stf.operation_user_id.to_owned());
 
             tbl_staff::Entity::update(staff_model)
                 .filter(tbl_staff::Column::Id.eq(staff_id.clone()))
@@ -57,10 +59,15 @@ impl IMutationRepository for Repository {
             email_address: Set(stf.email_address.to_owned()),
             vehicle_registration: Set(stf.vehicle_registration.to_owned()),
             staff_type_id: Set(stf.staff_type_id.to_owned()),
-            contractor_id: Set(stf.contractor_id.to_owned()),
+            tenant_id: Set(stf.tenant_id.to_owned()),
             sex: Set(stf.sex.to_owned()),
             active: Set(stf.active.to_owned()),
             hourly_rate: Set(hour_rate),
+            created_at: Set(Utc::now().naive_utc().to_owned()),
+            updated_at: Set(None),
+            commence_date: Set(Utc::now().naive_utc().to_owned()),
+            deleted_at: Set(None),
+            operation_user_id: Set(stf.operation_user_id.to_owned()),
         };
 
         tbl_staff::Entity::insert(staff_model)

@@ -57,10 +57,15 @@ impl ISelectionRepository for Repository {
                     vehicle_registration: stf.vehicle_registration,
                     staff_type_id: stf.staff_type_id,
                     staff_type: "".to_string(),
-                    contractor_id: stf.contractor_id,
+                    tenant_id: stf.tenant_id,
                     sex: stf.sex,
                     hourly_rate: hour_rate,
                     active: stf.active,
+                    commence_date: stf.commence_date,
+                    operation_user_id: stf.operation_user_id,
+                    created_at: stf.created_at,
+                    updated_at: stf.updated_at,
+                    deleted_at: None,
                 };
 
                 let staff_type = TblStaffType::find()
@@ -197,10 +202,15 @@ impl ISelectionRepository for Repository {
                 vehicle_registration: staff.vehicle_registration,
                 staff_type_id: staff.staff_type_id,
                 staff_type: "".to_string(),
-                contractor_id: staff.contractor_id,
+                tenant_id: staff.tenant_id,
                 sex: staff.sex,
                 hourly_rate: hour_rate,
                 active: staff.active,
+                commence_date: staff.commence_date,
+                operation_user_id: staff.operation_user_id,
+                created_at: staff.created_at,
+                updated_at: staff.updated_at,
+                deleted_at: None,
             };
 
             let staff_type = TblStaffType::find()

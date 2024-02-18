@@ -12,11 +12,16 @@ pub struct Model {
     pub email_address: String,
     pub vehicle_registration: Option<String>,
     pub staff_type_id: Uuid,
-    pub contractor_id: Uuid,
+    pub tenant_id: Uuid,
     pub sex: String,
     pub active: bool,
     #[sea_orm(column_type = "Decimal(Some((7, 2)))")]
     pub hourly_rate: Decimal,
+    pub created_at: DateTime,
+    pub updated_at: Option<DateTime>,
+    pub commence_date: DateTime,
+    pub deleted_at: Option<DateTime>,
+    pub operation_user_id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

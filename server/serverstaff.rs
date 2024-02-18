@@ -2,13 +2,139 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RequestStaffById {
     #[prost(string, tag = "1")]
+    pub tenant_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
     pub id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseStaffById {
     #[prost(message, optional, tag = "1")]
-    pub created_at: ::core::option::Option<::prost_types::Timestamp>,
+    pub staff: ::core::option::Option<Staff>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseAddressByStaffId {
+    #[prost(message, repeated, tag = "1")]
+    pub address: ::prost::alloc::vec::Vec<Address>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseContactsByStaffId {
+    #[prost(message, repeated, tag = "1")]
+    pub contacts: ::prost::alloc::vec::Vec<Contact>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestStaffTypes {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseStaffTypes {
+    #[prost(message, repeated, tag = "1")]
+    pub staff_types: ::prost::alloc::vec::Vec<StaffType>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestContactTypes {}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseContactTypes {
+    #[prost(message, repeated, tag = "1")]
+    pub contact_types: ::prost::alloc::vec::Vec<ContactType>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestStaffUpsert {
+    #[prost(string, tag = "1")]
+    pub tenant_id: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "2")]
+    pub staff: ::core::option::Option<Staff>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseStaffUpsert {
+    #[prost(string, tag = "1")]
+    pub tenant_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub staff_id: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Staff {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub first_name: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub last_name: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub email_address: ::prost::alloc::string::String,
+    #[prost(string, tag = "5")]
+    pub vehicle_registration: ::prost::alloc::string::String,
+    #[prost(string, tag = "6")]
+    pub staff_type_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "7")]
+    pub staff_type: ::prost::alloc::string::String,
+    #[prost(string, tag = "8")]
+    pub contractor_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "9")]
+    pub sex: ::prost::alloc::string::String,
+    #[prost(float, tag = "10")]
+    pub hourly_rate: f32,
+    #[prost(bool, tag = "11")]
+    pub active: bool,
+    #[prost(message, repeated, tag = "12")]
+    pub address: ::prost::alloc::vec::Vec<Address>,
+    #[prost(message, repeated, tag = "13")]
+    pub contacts: ::prost::alloc::vec::Vec<Contact>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Contact {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub contact_type_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub contact_type: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub contact: ::prost::alloc::string::String,
+    #[prost(bool, tag = "5")]
+    pub primary: bool,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Address {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub street_name: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub suburb: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub post_code: ::prost::alloc::string::String,
+    #[prost(string, tag = "5")]
+    pub state: ::prost::alloc::string::String,
+    #[prost(string, tag = "6")]
+    pub country: ::prost::alloc::string::String,
+    #[prost(bool, tag = "7")]
+    pub primary: bool,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ContactType {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub contact_type: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct StaffType {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub staff_type: ::prost::alloc::string::String,
 }
 /// Generated client implementations.
 pub mod staff_service_client {
@@ -95,7 +221,7 @@ pub mod staff_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
-        pub async fn get_staff(
+        pub async fn get_staff_by_staff_id(
             &mut self,
             request: impl tonic::IntoRequest<super::RequestStaffById>,
         ) -> std::result::Result<
@@ -113,11 +239,144 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetStaff",
+                "/serverstaff.StaffService/GetStaffByStaffId",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("serverstaff.StaffService", "GetStaff"));
+                .insert(
+                    GrpcMethod::new("serverstaff.StaffService", "GetStaffByStaffId"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn get_address_by_staff_id(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RequestStaffById>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseAddressByStaffId>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/serverstaff.StaffService/GetAddressByStaffId",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("serverstaff.StaffService", "GetAddressByStaffId"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn get_contacts_by_staff_id(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RequestStaffById>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseContactsByStaffId>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/serverstaff.StaffService/GetContactsByStaffId",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("serverstaff.StaffService", "GetContactsByStaffId"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn get_all_staff_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RequestStaffTypes>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseStaffTypes>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/serverstaff.StaffService/GetAllStaffType",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("serverstaff.StaffService", "GetAllStaffType"));
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn get_all_contact_type(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RequestContactTypes>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseContactTypes>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/serverstaff.StaffService/GetAllContactType",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("serverstaff.StaffService", "GetAllContactType"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
+        pub async fn upsert_staff(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RequestStaffUpsert>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseStaffUpsert>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/serverstaff.StaffService/UpsertStaff",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("serverstaff.StaffService", "UpsertStaff"));
             self.inner.unary(req, path, codec).await
         }
     }
@@ -129,11 +388,46 @@ pub mod staff_service_server {
     /// Generated trait containing gRPC methods that should be implemented for use with StaffServiceServer.
     #[async_trait]
     pub trait StaffService: Send + Sync + 'static {
-        async fn get_staff(
+        async fn get_staff_by_staff_id(
             &self,
             request: tonic::Request<super::RequestStaffById>,
         ) -> std::result::Result<
             tonic::Response<super::ResponseStaffById>,
+            tonic::Status,
+        >;
+        async fn get_address_by_staff_id(
+            &self,
+            request: tonic::Request<super::RequestStaffById>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseAddressByStaffId>,
+            tonic::Status,
+        >;
+        async fn get_contacts_by_staff_id(
+            &self,
+            request: tonic::Request<super::RequestStaffById>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseContactsByStaffId>,
+            tonic::Status,
+        >;
+        async fn get_all_staff_type(
+            &self,
+            request: tonic::Request<super::RequestStaffTypes>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseStaffTypes>,
+            tonic::Status,
+        >;
+        async fn get_all_contact_type(
+            &self,
+            request: tonic::Request<super::RequestContactTypes>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseContactTypes>,
+            tonic::Status,
+        >;
+        async fn upsert_staff(
+            &self,
+            request: tonic::Request<super::RequestStaffUpsert>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseStaffUpsert>,
             tonic::Status,
         >;
     }
@@ -216,13 +510,13 @@ pub mod staff_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/serverstaff.StaffService/GetStaff" => {
+                "/serverstaff.StaffService/GetStaffByStaffId" => {
                     #[allow(non_camel_case_types)]
-                    struct GetStaffSvc<T: StaffService>(pub Arc<T>);
+                    struct GetStaffByStaffIdSvc<T: StaffService>(pub Arc<T>);
                     impl<
                         T: StaffService,
                     > tonic::server::UnaryService<super::RequestStaffById>
-                    for GetStaffSvc<T> {
+                    for GetStaffByStaffIdSvc<T> {
                         type Response = super::ResponseStaffById;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
@@ -234,7 +528,8 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_staff(&inner, request).await
+                                <T as StaffService>::get_staff_by_staff_id(&inner, request)
+                                    .await
                             };
                             Box::pin(fut)
                         }
@@ -246,7 +541,247 @@ pub mod staff_service_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let inner = inner.0;
-                        let method = GetStaffSvc(inner);
+                        let method = GetStaffByStaffIdSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/serverstaff.StaffService/GetAddressByStaffId" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetAddressByStaffIdSvc<T: StaffService>(pub Arc<T>);
+                    impl<
+                        T: StaffService,
+                    > tonic::server::UnaryService<super::RequestStaffById>
+                    for GetAddressByStaffIdSvc<T> {
+                        type Response = super::ResponseAddressByStaffId;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::RequestStaffById>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as StaffService>::get_address_by_staff_id(
+                                        &inner,
+                                        request,
+                                    )
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetAddressByStaffIdSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/serverstaff.StaffService/GetContactsByStaffId" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetContactsByStaffIdSvc<T: StaffService>(pub Arc<T>);
+                    impl<
+                        T: StaffService,
+                    > tonic::server::UnaryService<super::RequestStaffById>
+                    for GetContactsByStaffIdSvc<T> {
+                        type Response = super::ResponseContactsByStaffId;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::RequestStaffById>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as StaffService>::get_contacts_by_staff_id(
+                                        &inner,
+                                        request,
+                                    )
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetContactsByStaffIdSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/serverstaff.StaffService/GetAllStaffType" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetAllStaffTypeSvc<T: StaffService>(pub Arc<T>);
+                    impl<
+                        T: StaffService,
+                    > tonic::server::UnaryService<super::RequestStaffTypes>
+                    for GetAllStaffTypeSvc<T> {
+                        type Response = super::ResponseStaffTypes;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::RequestStaffTypes>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as StaffService>::get_all_staff_type(&inner, request)
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetAllStaffTypeSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/serverstaff.StaffService/GetAllContactType" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetAllContactTypeSvc<T: StaffService>(pub Arc<T>);
+                    impl<
+                        T: StaffService,
+                    > tonic::server::UnaryService<super::RequestContactTypes>
+                    for GetAllContactTypeSvc<T> {
+                        type Response = super::ResponseContactTypes;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::RequestContactTypes>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as StaffService>::get_all_contact_type(&inner, request)
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetAllContactTypeSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/serverstaff.StaffService/UpsertStaff" => {
+                    #[allow(non_camel_case_types)]
+                    struct UpsertStaffSvc<T: StaffService>(pub Arc<T>);
+                    impl<
+                        T: StaffService,
+                    > tonic::server::UnaryService<super::RequestStaffUpsert>
+                    for UpsertStaffSvc<T> {
+                        type Response = super::ResponseStaffUpsert;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::RequestStaffUpsert>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as StaffService>::upsert_staff(&inner, request).await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = UpsertStaffSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(

@@ -3,7 +3,7 @@ use config::Config;
 use tonic::{Request, Response, Status};
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
-use crate::pb_staff::{RequestStaffById, ResponseStaffById};
+use crate::pb_staff::{RequestContactTypes, RequestStaffById, RequestStaffTypes, RequestStaffUpsert, ResponseAddressByStaffId, ResponseContactsByStaffId, ResponseContactTypes, ResponseStaffById, ResponseStaffTypes, ResponseStaffUpsert};
 use crate::pb_staff::staff_service_server::{StaffService};
 
 #[derive(Default)]
@@ -22,11 +22,27 @@ impl StaffServiceApi{
 
 #[tonic::async_trait]
 impl StaffService for StaffServiceApi {
-    async fn get_staff(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
-        let req = request.get_ref();
+    async fn get_staff_by_staff_id(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
+        todo!()
+    }
 
-        Ok(Response::new(ResponseStaffById{
-            created_at:None
-        }))
+    async fn get_address_by_staff_id(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseAddressByStaffId>, Status> {
+        todo!()
+    }
+
+    async fn get_contacts_by_staff_id(&self, request: Request<RequestStaffById>) -> Result<Response<ResponseContactsByStaffId>, Status> {
+        todo!()
+    }
+
+    async fn get_all_staff_type(&self, request: Request<RequestStaffTypes>) -> Result<Response<ResponseStaffTypes>, Status> {
+        todo!()
+    }
+
+    async fn get_all_contact_type(&self, request: Request<RequestContactTypes>) -> Result<Response<ResponseContactTypes>, Status> {
+        todo!()
+    }
+
+    async fn upsert_staff(&self, request: Request<RequestStaffUpsert>) -> Result<Response<ResponseStaffUpsert>, Status> {
+        todo!()
     }
 }

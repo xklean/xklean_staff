@@ -1,4 +1,6 @@
+use sea_orm::prelude::DateTime;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 use crate::adapters::entites::StaffEntity;
 
 
@@ -12,10 +14,15 @@ pub struct  Staff{
     pub vehicle_registration:Option<String>,
     pub staff_type_id:uuid::Uuid,
     pub staff_type:String,
-    pub contractor_id:uuid::Uuid,
+    pub tenant_id:uuid::Uuid,
     pub sex:String,
     pub hourly_rate:f32,
     pub active:bool,
+    pub commence_date:DateTime,
+    pub operation_user_id:Uuid,
+    pub created_at:DateTime,
+    pub updated_at:Option<DateTime>,
+    pub deleted_at:Option<DateTime>
 }
 
 impl From<StaffEntity> for Staff{
@@ -28,10 +35,15 @@ impl From<StaffEntity> for Staff{
             vehicle_registration: value.vehicle_registration,
             staff_type_id:value.staff_type_id,
             staff_type: value.staff_type,
-            contractor_id:value.contractor_id,
+            tenant_id:value.tenant_id,
             sex: value.sex,
             hourly_rate: value.hourly_rate,
             active: value.active,
+            commence_date: value.commence_date,
+            operation_user_id:value.operation_user_id,
+            created_at: value.created_at,
+            updated_at: value.updated_at,
+            deleted_at: value.deleted_at,
         }
     }
 }
@@ -46,10 +58,15 @@ impl From<Staff> for StaffEntity {
             vehicle_registration: value.vehicle_registration,
             staff_type_id:value.staff_type_id,
             staff_type: value.staff_type,
-            contractor_id:value.contractor_id,
+            tenant_id:value.tenant_id,
             sex: value.sex,
             hourly_rate: value.hourly_rate,
             active: value.active,
+            commence_date: value.commence_date,
+            operation_user_id:value.operation_user_id,
+            created_at: value.created_at,
+            updated_at: value.updated_at,
+            deleted_at: value.deleted_at,
         }
     }
 }
