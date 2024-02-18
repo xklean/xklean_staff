@@ -6,7 +6,10 @@ package serverstaff;
 
 service StaffService {
     rpc GetStaffByStaffId (RequestStaffById) returns (ResponseStaffById);
-
+    rpc GetAddressByStaffId(RequestStaffById) returns (ResponseAddressByStaffId);
+    rpc GetContactsByStaffId(RequestStaffById) returns (ResponseContactsByStaffId);
+    rpc GetAllStaffType(RequestStaffTypes) returns (ResponseStaffTypes);
+    rpc GetAllContactType(RequestContactTypes) returns (ResponseContactTypes);
 }
 
 message RequestStaffById {
@@ -15,6 +18,26 @@ message RequestStaffById {
 
 message ResponseStaffById {
     Staff staff = 1;
+}
+
+message ResponseAddressByStaffId {
+    repeated Address address = 1;
+}
+
+message ResponseContactsByStaffId {
+    repeated Contact contacts = 1;
+}
+
+message RequestStaffTypes{}
+
+message ResponseStaffTypes{
+    repeated StaffType staff_types = 1;
+}
+
+message RequestContactTypes{}
+
+message ResponseContactTypes{
+    repeated ContactType contact_types = 1;
 }
 
 
