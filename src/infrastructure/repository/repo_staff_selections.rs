@@ -16,7 +16,6 @@ use crate::adapters::entites::{AddressEntity};
 use crate::adapters::errors::ServiceErr;
 use crate::infrastructure::repository::entities::{tbl_staff_contact,tbl_staff_type};
 use crate::adapters::types;
-use num_traits::cast::ToPrimitive;
 
 
 #[derive(Default)]
@@ -47,30 +46,11 @@ impl ISelectionRepository for Repository {
 
         let data_staff = match staff {
             Some(stf) => {
-                let hour_rate = stf.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
-
-                let mut data_result = entites::StaffEntity {
-                    id,
-                    first_name: stf.first_name,
-                    last_name: stf.last_name,
-                    email_address: stf.email_address,
-                    vehicle_registration: stf.vehicle_registration,
-                    staff_type_id: stf.staff_type_id,
-                    staff_type: "".to_string(),
-                    tenant_id: stf.tenant_id,
-                    sex: stf.sex,
-                    hourly_rate: hour_rate,
-                    active: stf.active,
-                    commence_date: stf.commence_date,
-                    operation_user_id: stf.operation_user_id,
-                    created_at: stf.created_at,
-                    updated_at: stf.updated_at,
-                    deleted_at: None,
-                };
+                let mut data_result=StaffEntity::from(stf);
 
                 let staff_type = TblStaffType::find()
                     .filter(tbl_staff_type::Column::Id
-                        .eq(stf.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+                        .eq(data_result.staff_type_id.clone())).one(self.conn.as_ref()).await?;
 
                 match staff_type {
                     Some(stf_type)=>{
@@ -82,7 +62,7 @@ impl ISelectionRepository for Repository {
                 Ok(data_result)
             }
             None => {
-                Err(ServiceErr("error in entites".to_string()))
+                Err(ServiceErr("error in entities".to_string()))
             }
         };
 
@@ -192,30 +172,11 @@ impl ISelectionRepository for Repository {
         let mut staff_list: Vec<entites::StaffEntity> = Vec::new();
 
         for staff in staffs_list {
-            let hour_rate = staff.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
-
-            let mut data_staff = entites::StaffEntity {
-                id: staff.id,
-                first_name: staff.first_name,
-                last_name: staff.last_name,
-                email_address: staff.email_address,
-                vehicle_registration: staff.vehicle_registration,
-                staff_type_id: staff.staff_type_id,
-                staff_type: "".to_string(),
-                tenant_id: staff.tenant_id,
-                sex: staff.sex,
-                hourly_rate: hour_rate,
-                active: staff.active,
-                commence_date: staff.commence_date,
-                operation_user_id: staff.operation_user_id,
-                created_at: staff.created_at,
-                updated_at: staff.updated_at,
-                deleted_at: None,
-            };
+            let mut data_staff=StaffEntity::from(staff);
 
             let staff_type = TblStaffType::find()
                 .filter(tbl_staff_type::Column::Id
-                    .eq(staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+                    .eq(data_staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
 
             match staff_type {
                 Some(stf_type)=>{
@@ -317,5 +278,37 @@ impl ISelectionRepository for Repository {
         }
 
         Ok(address_list)
+    }
+
+    //----------------------------------------------------------------------------
+    // get staff by first name.
+    //----------------------------------------------------------------------------
+    async fn get_staff_by_name(
+        &self,
+        name: String) -> Response<Vec<StaffEntity>> {
+        let staff_list = TblStaff::find()
+            .filter(tbl_staff::Column::FirstName.like(name.clone()))
+            .all(self.conn.as_ref())
+            .await?;
+
+        let mut staff_data_list: Vec<entites::StaffEntity> = Vec::new();
+
+        for stf in staff_list{
+            let mut data_staff=StaffEntity::from(stf);
+
+            let staff_type = TblStaffType::find()
+                .filter(tbl_staff_type::Column::Id
+                    .eq(data_staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+
+            match staff_type {
+                Some(stf_type)=>{
+                    data_staff.staff_type=stf_type.type_name
+                }
+                None=>()            }
+
+            staff_data_list.push(data_staff);
+        }
+
+       Ok(staff_data_list)
     }
 }

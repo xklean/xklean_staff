@@ -10,4 +10,5 @@ pub trait ISelectionRepository :Send+Sync{
    async fn get_staffs_ids(&self,ids:Vec<uuid::Uuid>)->types::Response<Vec<entites::StaffEntity>>;
    async fn get_contacts_staff_ids(&self,staff_ids:Vec<uuid::Uuid>)->types::Response<HashMap<String, entites::ContactEntity>>;
    async fn get_address_staff_ids(&self,staff_ids:Vec<uuid::Uuid>)->types::Response<Vec<entites::AddressEntity>>;
+   async fn get_staff_by_name(&self ,name:String)->types::Response<Vec<entites::StaffEntity>>;
 }
