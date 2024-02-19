@@ -14,6 +14,7 @@ use crate::config::configuration::Configuration as cfg;
 use crate::infrastructure::connection::DataBaseConn;
 use crate::application::{StaffServiceApi};
 use tonic::transport::Server;
+use crate::infrastructure::repository::Repository;
 use crate::pb_staff::staff_service_server::StaffServiceServer;
 
 mod adapters;
@@ -42,8 +43,11 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
     };
 
 
+    let repo=Arc::new(Repository::new(db_conn));
+
+
     let service_address = config.get_service_address();
-    let api_server = StaffServiceApi::new(Box::new(config));
+    let api_server = StaffServiceApi::new(Box::new(config),repo.clone());
 
     let (signal_tx, signal_rx) = signal_channel();
     spawn(wait_for_sigterm(signal_tx));
