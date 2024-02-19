@@ -25,3 +25,4 @@ impl From<tbl_staff::Model> for entites::StaffEntity{
         }
     }
 }
+

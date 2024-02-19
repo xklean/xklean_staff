@@ -14,6 +14,20 @@ pub struct ResponseStaffById {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct RequestStaffFirstName {
+    #[prost(string, tag = "1")]
+    pub tenant_id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub first_name: ::prost::alloc::string::String,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct ResponseStaffByFirstName {
+    #[prost(message, repeated, tag = "1")]
+    pub staff: ::prost::alloc::vec::Vec<Staff>,
+}
+#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseAddressByStaffId {
     #[prost(message, repeated, tag = "1")]
     pub address: ::prost::alloc::vec::Vec<Address>,
@@ -248,6 +262,33 @@ pub mod staff_service_client {
                 );
             self.inner.unary(req, path, codec).await
         }
+        pub async fn get_staff_by_first_name(
+            &mut self,
+            request: impl tonic::IntoRequest<super::RequestStaffFirstName>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseStaffByFirstName>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/serverstaff.StaffService/GetStaffByFirstName",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new("serverstaff.StaffService", "GetStaffByFirstName"),
+                );
+            self.inner.unary(req, path, codec).await
+        }
         pub async fn get_address_by_staff_id(
             &mut self,
             request: impl tonic::IntoRequest<super::RequestStaffById>,
@@ -393,6 +434,13 @@ pub mod staff_service_server {
             request: tonic::Request<super::RequestStaffById>,
         ) -> std::result::Result<
             tonic::Response<super::ResponseStaffById>,
+            tonic::Status,
+        >;
+        async fn get_staff_by_first_name(
+            &self,
+            request: tonic::Request<super::RequestStaffFirstName>,
+        ) -> std::result::Result<
+            tonic::Response<super::ResponseStaffByFirstName>,
             tonic::Status,
         >;
         async fn get_address_by_staff_id(
@@ -542,6 +590,56 @@ pub mod staff_service_server {
                     let fut = async move {
                         let inner = inner.0;
                         let method = GetStaffByStaffIdSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/serverstaff.StaffService/GetStaffByFirstName" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetStaffByFirstNameSvc<T: StaffService>(pub Arc<T>);
+                    impl<
+                        T: StaffService,
+                    > tonic::server::UnaryService<super::RequestStaffFirstName>
+                    for GetStaffByFirstNameSvc<T> {
+                        type Response = super::ResponseStaffByFirstName;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::RequestStaffFirstName>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as StaffService>::get_staff_by_first_name(
+                                        &inner,
+                                        request,
+                                    )
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let inner = inner.0;
+                        let method = GetStaffByFirstNameSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(

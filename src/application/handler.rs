@@ -3,7 +3,7 @@ use config::Config;
 use tonic::{Request, Response, Status};
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
-use crate::pb_staff::{RequestContactTypes, RequestStaffById, RequestStaffTypes, RequestStaffUpsert, ResponseAddressByStaffId, ResponseContactsByStaffId, ResponseContactTypes, ResponseStaffById, ResponseStaffTypes, ResponseStaffUpsert};
+use crate::pb_staff::{RequestContactTypes, RequestStaffById, RequestStaffFirstName, RequestStaffTypes, RequestStaffUpsert, ResponseAddressByStaffId, ResponseContactsByStaffId, ResponseContactTypes, ResponseStaffByFirstName, ResponseStaffById, ResponseStaffTypes, ResponseStaffUpsert};
 use crate::pb_staff::staff_service_server::{StaffService};
 
 #[derive(Default)]
@@ -25,6 +25,12 @@ impl StaffService for StaffServiceApi {
     async fn get_staff_by_staff_id(
         &self,
         request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
+        todo!()
+    }
+
+    async fn get_staff_by_first_name(
+        &self,
+        request: Request<RequestStaffFirstName>) -> Result<Response<ResponseStaffByFirstName>, Status> {
         todo!()
     }
 

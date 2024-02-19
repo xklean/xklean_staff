@@ -6,6 +6,7 @@ package serverstaff;
 
 service StaffService {
     rpc GetStaffByStaffId (RequestStaffById) returns (ResponseStaffById);
+    rpc GetStaffByFirstName (RequestStaffFirstName) returns (ResponseStaffByFirstName);
     rpc GetAddressByStaffId (RequestStaffById) returns (ResponseAddressByStaffId);
     rpc GetContactsByStaffId (RequestStaffById) returns (ResponseContactsByStaffId);
     rpc GetAllStaffType (RequestStaffTypes) returns (ResponseStaffTypes);
@@ -21,6 +22,16 @@ message RequestStaffById {
 message ResponseStaffById
 {
     Staff staff = 1;
+}
+
+message RequestStaffFirstName {
+    string tenant_id = 1;
+    string first_name = 2;
+}
+
+message ResponseStaffByFirstName
+{
+    repeated Staff staff = 1;
 }
 
 message ResponseAddressByStaffId {
