@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -14,7 +15,7 @@ pub struct StaffEntity {
     pub sex:String,
     pub hourly_rate:f32,
     pub active:bool,
-    pub commence_date:DateTime,
+    pub commence_date:NaiveDate,
     pub operation_user_id:Uuid,
     pub created_at:DateTime,
     pub updated_at:Option<DateTime>,

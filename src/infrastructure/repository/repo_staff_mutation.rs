@@ -1,10 +1,11 @@
 use num_traits::FromPrimitive;
 use sea_orm::ActiveValue::Set;
 use sea_orm::prelude::Decimal;
-use crate::adapters::entites::{ContactTypeEntity, StaffEntity, StaffTypeEntity};
+use crate::adapters::entities::{ContactTypeEntity, StaffEntity, StaffTypeEntity};
 use crate::adapters::repository::IMutationRepository;
 use crate::adapters::types::Response;
 use chrono::{Utc};
+
 
 #[async_trait]
 impl IMutationRepository for Repository {
@@ -65,7 +66,7 @@ impl IMutationRepository for Repository {
             hourly_rate: Set(hour_rate),
             created_at: Set(Utc::now().naive_utc().to_owned()),
             updated_at: Set(None),
-            commence_date: Set(Utc::now().naive_utc().to_owned()),
+            commence_date: Set(Utc::now().naive_utc().date().to_owned()),
             deleted_at: Set(None),
             operation_user_id: Set(stf.operation_user_id.to_owned()),
         };
@@ -82,7 +83,7 @@ impl IMutationRepository for Repository {
     async fn upsert_contacts(
         &self,
         staff_id: Uuid,
-        contacts: Box<Arc<Vec<ContactEntity>>>) -> Response<bool> {
+        contacts: Box<Arc<Vec<ent::ContactEntity>>>) -> Response<bool> {
         let contacts_list = &**contacts;
 
         for con in contacts_list {

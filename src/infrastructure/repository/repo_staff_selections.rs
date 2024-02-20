@@ -4,7 +4,6 @@ use std::sync::{Arc};
 use async_trait::async_trait;
 use sea_orm::{DatabaseConnection, entity::*, query::*};
 use uuid::Uuid;
-use entites::ContactEntity;
 use crate::adapters::repository::ISelectionRepository;
 use entities::{prelude::*,
                tbl_staff,
@@ -12,11 +11,12 @@ use entities::{prelude::*,
                tbl_contact_type,
                tbl_staff_address,
                tbl_address};
-use crate::adapters::{entites};
-use crate::adapters::entites::{AddressEntity};
+use crate::adapters::{entities as ent};
+use crate::adapters::entities::{AddressEntity};
 use crate::adapters::errors::ServiceErr;
 use crate::infrastructure::repository::entities::{tbl_staff_contact,tbl_staff_type};
 use crate::adapters::types;
+use crate::infrastructure::repository::entities::prelude::TblStaff;
 
 
 #[derive(Default)]
@@ -75,13 +75,13 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_contacts_staff_id(
         &self,
-        staff_id: Uuid) -> types::Response<Vec<ContactEntity>> {
+        staff_id: Uuid) -> types::Response<Vec<ent::ContactEntity>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone()))
             .all(self.conn.as_ref())
             .await?;
 
-        let mut contacts: Vec<ContactEntity> = Vec::new();
+        let mut contacts: Vec<ent::ContactEntity> = Vec::new();
 
         for stf_contact in contacts_staff {
             let contact = TblContact::find()
@@ -89,7 +89,7 @@ impl ISelectionRepository for Repository {
                 .one(self.conn.as_ref())
                 .await?;
 
-            let mut data_contact: ContactEntity = ContactEntity::default();
+            let mut data_contact: ent::ContactEntity = ent::ContactEntity::default();
             match contact {
                 Some(con) => {
                     data_contact.id = con.id;
@@ -170,7 +170,7 @@ impl ISelectionRepository for Repository {
             .all(self.conn.as_ref())
             .await?;
 
-        let mut staff_list: Vec<entites::StaffEntity> = Vec::new();
+        let mut staff_list: Vec<ent::StaffEntity> = Vec::new();
 
         for staff in staffs_list {
             let mut data_staff=StaffEntity::from(staff);
@@ -196,14 +196,14 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_contacts_staff_ids(
         &self,
-        staff_ids: Vec<Uuid>) -> types::Response<HashMap<String, ContactEntity>> {
+        staff_ids: Vec<Uuid>) -> types::Response<HashMap<String, ent::ContactEntity>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.is_in(staff_ids.clone())
                 .and(tbl_staff_contact::Column::Primary.eq(true)))
             .all(self.conn.as_ref())
             .await?;
 
-        let mut contact_map: HashMap<String, entites::ContactEntity> = HashMap::new();
+        let mut contact_map: HashMap<String, ent::ContactEntity> = HashMap::new();
 
         for stf_contact in contacts_staff {
             let contact = TblContact::find()
@@ -211,7 +211,7 @@ impl ISelectionRepository for Repository {
                 .one(self.conn.as_ref())
                 .await?;
 
-            let mut data_contact: ContactEntity = ContactEntity::default();
+            let mut data_contact: ent::ContactEntity = ent::ContactEntity::default();
             match contact {
                 Some(con) => {
                     data_contact.id = con.id;
@@ -292,7 +292,7 @@ impl ISelectionRepository for Repository {
             .all(self.conn.as_ref())
             .await?;
 
-        let mut staff_data_list: Vec<entites::StaffEntity> = Vec::new();
+        let mut staff_data_list: Vec<ent::StaffEntity> = Vec::new();
 
         for stf in staff_list{
             let mut data_staff=StaffEntity::from(stf);

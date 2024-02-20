@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
-use crate::adapters::entites::ContactTypeEntity;
+
+use crate::adapters::entities::ContactTypeEntity;
 
 #[derive(Deserialize,Serialize,Default,Clone)]
 pub struct ContactTypeData {

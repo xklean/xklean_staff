@@ -1,5 +1,5 @@
-use serde::{Deserialize, Serialize};
-use crate::adapters::entites::{AddressEntity};
+
+use crate::adapters::entities::{AddressEntity};
 
 #[derive(Serialize,Deserialize,Default,Clone)]
 pub struct AddressData {

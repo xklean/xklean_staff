@@ -1,7 +1,7 @@
+use chrono::NaiveDate;
 use sea_orm::prelude::DateTime;
-use serde::{Deserialize, Serialize};
 use uuid::Uuid;
-use crate::adapters::entites::StaffEntity;
+use crate::adapters::entities::StaffEntity;
 
 #[derive(Serialize,Deserialize,Default,Clone)]
 pub struct  StaffData{
@@ -16,7 +16,7 @@ pub struct  StaffData{
     pub sex:String,
     pub hourly_rate:f32,
     pub active:bool,
-    pub commence_date:DateTime,
+    pub commence_date:NaiveDate,
     pub operation_user_id:Uuid,
     pub created_at:DateTime,
     pub updated_at:Option<DateTime>,

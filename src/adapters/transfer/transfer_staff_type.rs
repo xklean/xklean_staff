@@ -1,5 +1,4 @@
-use serde::{Deserialize, Serialize};
-use crate::adapters::entites::StaffTypeEntity;
+use crate::adapters::entities::StaffTypeEntity;
 
 #[derive(Deserialize,Serialize,Default,Clone)]
 pub struct StaffTypeData {

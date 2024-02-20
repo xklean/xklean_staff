@@ -1,8 +1,8 @@
-use crate::adapters::entites;
+use crate::adapters::entities;
 use crate::infrastructure::repository::entities::tbl_staff;
 use num_traits::cast::ToPrimitive;
 
-impl From<tbl_staff::Model> for entites::StaffEntity{
+impl From<tbl_staff::Model> for entities::StaffEntity{
     fn from(staff: tbl_staff::Model) -> Self {
         let hour_rate = staff.hourly_rate.to_f32().unwrap_or_else(|| 0.0);
         return Self{

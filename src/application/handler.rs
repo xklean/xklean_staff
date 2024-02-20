@@ -4,15 +4,25 @@ use tonic::{Request, Response, Status};
 use crate::adapters::repository::IMutationRepository;
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
-use crate::pb_staff::{RequestContactTypes, RequestStaffById, RequestStaffFirstName, RequestStaffTypes, RequestStaffUpsert, ResponseAddressByStaffId, ResponseContactsByStaffId, ResponseContactTypes, ResponseStaffByFirstName, ResponseStaffById, ResponseStaffTypes, ResponseStaffUpsert};
+use crate::pb_staff::{
+    RequestContactTypes,
+    RequestStaffById,
+    RequestStaffFirstName,
+    RequestStaffTypes,
+    RequestStaffUpsert,
+    ResponseAddressByStaffId,
+    ResponseContactsByStaffId,
+    ResponseContactTypes,
+    ResponseStaffByFirstName,
+    ResponseStaffById,
+    ResponseStaffTypes,
+    ResponseStaffUpsert};
 use crate::pb_staff::staff_service_server::{StaffService};
 
 
 pub struct StaffServiceApi{
     pub config:Box<Arc<Configuration>>,
-
 }
-
 
 impl StaffServiceApi{
     pub fn new(
