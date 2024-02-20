@@ -83,8 +83,8 @@ pub struct Staff {
     pub last_name: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
     pub email_address: ::prost::alloc::string::String,
-    #[prost(string, tag = "5")]
-    pub vehicle_registration: ::prost::alloc::string::String,
+    #[prost(string, optional, tag = "5")]
+    pub vehicle_registration: ::core::option::Option<::prost::alloc::string::String>,
     #[prost(string, tag = "6")]
     pub staff_type_id: ::prost::alloc::string::String,
     #[prost(string, tag = "7")]

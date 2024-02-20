@@ -3,10 +3,8 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use crate::adapters::entites::StaffEntity;
 
-
-
 #[derive(Serialize,Deserialize,Default,Clone)]
-pub struct  Staff{
+pub struct  StaffData{
     pub id:uuid::Uuid,
     pub first_name:String,
     pub last_name:String,
@@ -22,10 +20,10 @@ pub struct  Staff{
     pub operation_user_id:Uuid,
     pub created_at:DateTime,
     pub updated_at:Option<DateTime>,
-    pub deleted_at:Option<DateTime>
+    pub deleted_at:Option<DateTime>,
 }
 
-impl From<StaffEntity> for Staff{
+impl From<StaffEntity> for StaffData{
     fn from(value: StaffEntity) -> Self {
         return Self{
             id: value.id,
@@ -48,8 +46,8 @@ impl From<StaffEntity> for Staff{
     }
 }
 
-impl From<Staff> for StaffEntity {
-    fn from(value: Staff) -> Self {
+impl From<StaffData> for StaffEntity {
+    fn from(value: StaffData) -> Self {
         return Self{
             id: value.id,
             first_name: value.first_name,

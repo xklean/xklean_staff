@@ -1,6 +1,7 @@
 use std::sync::Arc;
 use config::Config;
 use tonic::{Request, Response, Status};
+use crate::adapters::repository::IMutationRepository;
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
 use crate::pb_staff::{RequestContactTypes, RequestStaffById, RequestStaffFirstName, RequestStaffTypes, RequestStaffUpsert, ResponseAddressByStaffId, ResponseContactsByStaffId, ResponseContactTypes, ResponseStaffByFirstName, ResponseStaffById, ResponseStaffTypes, ResponseStaffUpsert};
@@ -8,17 +9,17 @@ use crate::pb_staff::staff_service_server::{StaffService};
 
 
 pub struct StaffServiceApi{
-    config:Box<Arc<Configuration>>,
-    staff_select_repo:Arc<dyn ISelectionRepository>
+    pub config:Box<Arc<Configuration>>,
+
 }
 
 
 impl StaffServiceApi{
     pub fn new(
-        cfg :Box<Arc<Configuration>>, staff_select_repo: Arc<dyn  ISelectionRepository>) ->Self{
+        cfg :Box<Arc<Configuration>>) ->Self{
         return StaffServiceApi{
             config:cfg,
-            staff_select_repo
+
         }
     }
 }
@@ -28,6 +29,9 @@ impl StaffService for StaffServiceApi {
     async fn get_staff_by_staff_id(
         &self,
         request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {
+
+
+
         todo!()
     }
 

@@ -1,5 +1,6 @@
-mod transfer_staff;
-mod transfer_contact;
-mod treansfer_address;
-mod transfer_staff_type;
-mod transfer_contact_type;
+
+include!("transfer_contact.rs");
+include!("transfer_contact_type.rs");
+include!("transfer_staff.rs");
+include!("transfer_staff_type.rs");
+include!("transfer_address.rs");

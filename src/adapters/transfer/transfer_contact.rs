@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::adapters::entites::ContactEntity;
 
 #[derive(Deserialize,Serialize,Default,Clone)]
-pub struct Contact {
+pub struct ContactData {
     pub id: uuid::Uuid,
     pub contact_type_id:uuid::Uuid,
     pub contact_type:String,
@@ -10,7 +10,7 @@ pub struct Contact {
     pub primary:bool
 }
 
-impl From<ContactEntity> for Contact{
+impl From<ContactEntity> for ContactData{
     fn from(value: ContactEntity) -> Self {
         return Self{
             id: value.id,
@@ -22,8 +22,8 @@ impl From<ContactEntity> for Contact{
     }
 }
 
-impl From<Contact> for ContactEntity{
-    fn from(value: Contact) -> Self {
+impl From<ContactData> for ContactEntity{
+    fn from(value: ContactData) -> Self {
         return Self{
             id: value.id,
             contact_type_id: value.contact_type_id,
@@ -33,3 +33,4 @@ impl From<Contact> for ContactEntity{
         }
     }
 }
+

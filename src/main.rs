@@ -23,7 +23,6 @@ mod application;
 mod infrastructure;
 mod helpers;
 
-
 pub mod pb_staff {
     include!("../server/serverstaff.rs");
 }
@@ -42,12 +41,10 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
         Err(err) => panic!("{}", err)
     };
 
-
     let repo=Arc::new(Repository::new(db_conn));
 
-
     let service_address = config.get_service_address();
-    let api_server = StaffServiceApi::new(Box::new(config),repo.clone());
+    let api_server = StaffServiceApi::new(Box::new(config));
 
     let (signal_tx, signal_rx) = signal_channel();
     spawn(wait_for_sigterm(signal_tx));

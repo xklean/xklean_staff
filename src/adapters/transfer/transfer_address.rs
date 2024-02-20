@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use crate::adapters::entites::{AddressEntity};
 
 #[derive(Serialize,Deserialize,Default,Clone)]
-pub struct Address {
+pub struct AddressData {
     pub id:uuid::Uuid,
     pub street_name :String,
     pub suburb:String,
@@ -12,7 +12,7 @@ pub struct Address {
     pub primary:bool
 }
 
-impl From<AddressEntity> for Address{
+impl From<AddressEntity> for AddressData{
     fn from(value: AddressEntity) -> Self {
        return Self{
            id: value.id,
@@ -26,8 +26,8 @@ impl From<AddressEntity> for Address{
     }
 }
 
-impl From<Address> for AddressEntity{
-    fn from(value: Address) -> Self {
+impl From<AddressData> for AddressEntity{
+    fn from(value: AddressData) -> Self {
         return Self{
             id: value.id,
             street_name: value.street_name,

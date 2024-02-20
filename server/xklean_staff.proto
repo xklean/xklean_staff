@@ -69,7 +69,7 @@ message Staff {
     string first_name = 2;
     string last_name = 3;
     string email_address = 4;
-    string vehicle_registration = 5;
+    optional string vehicle_registration = 5;
     string staff_type_id = 6;
     string staff_type = 7;
     string contractor_id = 8;
