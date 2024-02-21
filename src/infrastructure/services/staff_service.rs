@@ -130,25 +130,50 @@ impl<S, M> IStaffService for StaffService<S, M>
         Ok(contact_result)
     }
 
+    //------------------------------------------------------------------------
+    //get all staff types
+    //------------------------------------------------------------------------
     async fn get_all_staff_types(
         &self) -> Response<Vec<StaffTypeData>> {
         let select_repo = &(**self.sel_repo);
 
+        let mut staff_type_result: Vec<StaffTypeData> = Vec::new();
 
+        let staff_types = select_repo.get_all_staff_types().await?;
 
+        for stf in staff_types {
+            let staff_type = StaffTypeData::from(stf);
 
-        todo!()
+            staff_type_result.push(staff_type)
+        }
+
+        Ok(staff_type_result)
     }
+
+    //------------------------------------------------------------------------
+    //get all contact types
+    //------------------------------------------------------------------------
 
     async fn get_all_contact_types(
         &self) -> Response<Vec<ContactTypeData>> {
-        todo!()
+        let select_repo = &(**self.sel_repo);
+
+        let contact_types =select_repo.get_all_contact_types().await?;
+        let contact_type_result=  contact_types.into_iter().map(|con_type|{
+            let val= ContactTypeData::from(con_type);
+            return val
+
+        }).collect();
+
+        Ok(contact_type_result)
     }
 
     async fn upsert_staff(
         &self,
         staff: StaffData) -> Response<bool> {
-        todo!()
+
+
+     Ok(true)
     }
 }
 

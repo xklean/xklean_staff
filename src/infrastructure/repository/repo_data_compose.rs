@@ -6,7 +6,6 @@ use crate::infrastructure::repository::entities::{
     tbl_contact_type,
     tbl_staff_type};
 use num_traits::cast::ToPrimitive;
-use crate::infrastructure::repository::entities::tbl_contact::Model;
 
 impl From<tbl_staff::Model> for entities::StaffEntity{
     fn from(staff: tbl_staff::Model) -> Self {
