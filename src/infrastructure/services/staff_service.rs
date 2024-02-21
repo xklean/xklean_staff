@@ -34,6 +34,12 @@ impl <S,M>IStaffService for StaffService<S,M>
     where S:ISelectionRepository+ Sync + Send,
           M:IMutationRepository+ Sync + Send{
     async fn get_staff_by_staff_id(&self, staff_id: Uuid) -> Response<StaffData> {
+       let xx = &(**self.sel_repo);
+
+       let staff=  xx.get_staff_by_id(staff_id).await?;
+       let staff_data = StaffData::from(staff);
+
+        
 
         todo!()
     }
