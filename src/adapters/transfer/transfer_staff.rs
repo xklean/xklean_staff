@@ -21,6 +21,8 @@ pub struct  StaffData{
     pub created_at:DateTime,
     pub updated_at:Option<DateTime>,
     pub deleted_at:Option<DateTime>,
+    pub address: Vec<AddressData>,
+    pub contacts:Vec<ContactData>
 }
 
 impl From<StaffEntity> for StaffData{
@@ -42,6 +44,8 @@ impl From<StaffEntity> for StaffData{
             created_at: value.created_at,
             updated_at: value.updated_at,
             deleted_at: value.deleted_at,
+            address: vec![],
+            contacts: vec![],
         }
     }
 }

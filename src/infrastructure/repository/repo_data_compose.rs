@@ -1,6 +1,12 @@
 use crate::adapters::entities;
-use crate::infrastructure::repository::entities::tbl_staff;
+use crate::infrastructure::repository::entities::{
+    tbl_staff,
+    tbl_contact,
+    tbl_address,
+    tbl_contact_type,
+    tbl_staff_type};
 use num_traits::cast::ToPrimitive;
+use crate::infrastructure::repository::entities::tbl_contact::Model;
 
 impl From<tbl_staff::Model> for entities::StaffEntity{
     fn from(staff: tbl_staff::Model) -> Self {
@@ -26,3 +32,46 @@ impl From<tbl_staff::Model> for entities::StaffEntity{
     }
 }
 
+impl From<tbl_contact::Model> for entities::ContactEntity  {
+    fn from(value: tbl_contact::Model) -> Self {
+        return Self{
+            id: value.id,
+            contact_type_id: value.contact_type_id,
+            contact_type: "".to_string(),
+            contact: value.contact_value,
+            primary: false,
+        }
+    }
+}
+
+impl From<tbl_address::Model> for entities::AddressEntity {
+    fn from(value: tbl_address::Model) -> Self {
+        return Self{
+            id: value.id,
+            street_name:value.street_name,
+            suburb: value.suburb,
+            post_code:value.post_code,
+            state: value.state,
+            country: value.country,
+            primary: false,
+        }
+    }
+}
+
+impl From<tbl_contact_type::Model> for entities::ContactTypeEntity {
+    fn from(value: tbl_contact_type::Model) -> Self {
+        return Self{
+            id: value.id,
+            contact_type: value.contact_type,
+        }
+    }
+}
+
+impl From<tbl_staff_type::Model> for entities::StaffTypeEntity {
+    fn from(value: tbl_staff_type::Model) -> Self {
+        return Self{
+            id: value.id,
+            staff_type:value.type_name,
+        }
+    }
+}

@@ -1,4 +1,3 @@
-
 use std::collections::HashMap;
 use std::sync::{Arc};
 use async_trait::async_trait;
@@ -14,7 +13,7 @@ use entities::{prelude::*,
 use crate::adapters::{entities as ent};
 use crate::adapters::entities::{AddressEntity};
 use crate::adapters::errors::ServiceErr;
-use crate::infrastructure::repository::entities::{tbl_staff_contact,tbl_staff_type};
+use crate::infrastructure::repository::entities::{tbl_staff_contact, tbl_staff_type};
 use crate::adapters::types;
 use crate::infrastructure::repository::entities::prelude::TblStaff;
 
@@ -47,17 +46,17 @@ impl ISelectionRepository for Repository {
 
         let data_staff = match staff {
             Some(stf) => {
-                let mut data_result=StaffEntity::from(stf);
+                let mut data_result = StaffEntity::from(stf);
 
                 let staff_type = TblStaffType::find()
                     .filter(tbl_staff_type::Column::Id
                         .eq(data_result.staff_type_id.clone())).one(self.conn.as_ref()).await?;
 
                 match staff_type {
-                    Some(stf_type)=>{
-                        data_result.staff_type=stf_type.type_name
+                    Some(stf_type) => {
+                        data_result.staff_type = stf_type.type_name
                     }
-                    None=>()
+                    None => ()
                 }
 
                 Ok(data_result)
@@ -173,17 +172,18 @@ impl ISelectionRepository for Repository {
         let mut staff_list: Vec<ent::StaffEntity> = Vec::new();
 
         for staff in staffs_list {
-            let mut data_staff=StaffEntity::from(staff);
+            let mut data_staff = StaffEntity::from(staff);
 
             let staff_type = TblStaffType::find()
                 .filter(tbl_staff_type::Column::Id
                     .eq(data_staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
 
             match staff_type {
-                Some(stf_type)=>{
-                    data_staff.staff_type=stf_type.type_name
+                Some(stf_type) => {
+                    data_staff.staff_type = stf_type.type_name
                 }
-                None=>()            }
+                None => ()
+            }
 
             staff_list.push(data_staff);
         }
@@ -269,7 +269,7 @@ impl ISelectionRepository for Repository {
                         post_code: addr.post_code,
                         state: addr.state,
                         country: addr.country,
-                        primary:stf_add.primary
+                        primary: stf_add.primary,
                     };
 
                     address_list.push(data_address)
@@ -294,22 +294,57 @@ impl ISelectionRepository for Repository {
 
         let mut staff_data_list: Vec<ent::StaffEntity> = Vec::new();
 
-        for stf in staff_list{
-            let mut data_staff=StaffEntity::from(stf);
+        for stf in staff_list {
+            let mut data_staff = StaffEntity::from(stf);
 
             let staff_type = TblStaffType::find()
                 .filter(tbl_staff_type::Column::Id
                     .eq(data_staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
 
             match staff_type {
-                Some(stf_type)=>{
-                    data_staff.staff_type=stf_type.type_name
+                Some(stf_type) => {
+                    data_staff.staff_type = stf_type.type_name
                 }
-                None=>()            }
+                None => ()
+            }
 
             staff_data_list.push(data_staff);
         }
 
-       Ok(staff_data_list)
+        Ok(staff_data_list)
+    }
+
+    //----------------------------------------------------------------------------
+    // get all staff types.
+    //----------------------------------------------------------------------------
+    async fn get_all_staff_types(&self) -> Response<Vec<StaffTypeEntity>> {
+        let mut staff_type_result: Vec<StaffTypeEntity> = Vec::new();
+
+        let staff_types = TblStaffType::find().all(self.conn.as_ref()).await?;
+
+        for sft in staff_types {
+            let staff_type = StaffTypeEntity::from(sft);
+
+            staff_type_result.push(staff_type)
+        }
+
+        Ok(staff_type_result)
+    }
+
+    //----------------------------------------------------------------------------
+    // get all contact types.
+    //----------------------------------------------------------------------------
+    async fn get_all_contact_types(&self) -> Response<Vec<ContactTypeEntity>> {
+        let mut contact_type_result: Vec<ContactTypeEntity> = Vec::new();
+
+        let contact_types = TblContactType::find().all(self.conn.as_ref()).await?;
+
+        for con in contact_types {
+            let con_type = ContactTypeEntity::from(con);
+
+            contact_type_result.push(con_type)
+        }
+
+        Ok(contact_type_result)
     }
 }
