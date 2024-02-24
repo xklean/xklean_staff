@@ -158,8 +158,11 @@ impl<S, M> IStaffService for StaffService<S, M>
         &self) -> Response<Vec<ContactTypeData>> {
         let select_repo = &(**self.sel_repo);
 
-        let contact_types =select_repo.get_all_contact_types().await?;
-        let contact_type_result=  contact_types.into_iter().map(|con_type|{
+        let contact_types =select_repo
+            .get_all_contact_types().await?;
+
+        let contact_type_result=  contact_types
+            .into_iter().map(|con_type|{
             let val= ContactTypeData::from(con_type);
             return val
 
@@ -174,6 +177,24 @@ impl<S, M> IStaffService for StaffService<S, M>
 
 
      Ok(true)
+    }
+
+    //------------------------------------------------------------------------
+    //get all staff by ids without address and contact included.
+    //------------------------------------------------------------------------
+    async fn get_staffs_by_ids(&self, ids: Vec<Uuid>) -> Response<Vec<StaffData>> {
+        let select_repo = &(**self.sel_repo);
+
+        let staff_list = select_repo.get_staffs_ids(ids).await?;
+
+        let staff_result = staff_list.into_iter().map(|stf|{
+            let staff = StaffData::from(stf);
+
+            return staff
+        }).collect();
+
+
+        Ok(staff_result)
     }
 }
 

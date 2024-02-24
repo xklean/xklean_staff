@@ -12,4 +12,5 @@ pub trait IStaffService :Sync +Send {
     async fn get_all_staff_types(&self)-> Response<Vec<StaffTypeData>>;
     async fn get_all_contact_types(&self)-> Response<Vec<ContactTypeData>>;
     async fn upsert_staff(&self,staff:StaffData)-> Response<bool>;
+    async fn get_staffs_by_ids(&self,ids:Vec<uuid::Uuid>)->Response<Vec<StaffData>>;
 }
