@@ -9,6 +9,7 @@ pub struct Model {
     pub id: Uuid,
     #[sea_orm(unique)]
     pub type_name: String,
+    pub tenant_id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

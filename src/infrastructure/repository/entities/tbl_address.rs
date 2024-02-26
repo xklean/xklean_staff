@@ -12,6 +12,7 @@ pub struct Model {
     pub post_code: String,
     pub state: String,
     pub country: String,
+    pub tenant_id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

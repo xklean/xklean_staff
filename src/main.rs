@@ -49,7 +49,7 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
 
 
     let service_address = config.get_service_address();
-    let api_server = StaffServiceApi::new(Box::new(config));
+    let api_server = StaffServiceApi::new(Box::new(config),Box::new(staff_service));
 
     let (signal_tx, signal_rx) = signal_channel();
     spawn(wait_for_sigterm(signal_tx));

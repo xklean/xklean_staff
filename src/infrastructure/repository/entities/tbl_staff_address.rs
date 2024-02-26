@@ -10,6 +10,7 @@ pub struct Model {
     pub address_id: Uuid,
     pub staff_id: Uuid,
     pub primary: bool,
+    pub tenant_id: Uuid,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]

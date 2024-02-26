@@ -40,7 +40,10 @@ pub struct ResponseContactsByStaffId {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RequestStaffTypes {}
+pub struct RequestStaffTypes {
+    #[prost(string, tag = "1")]
+    pub tenant_id: ::prost::alloc::string::String,
+}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseStaffTypes {
@@ -49,7 +52,10 @@ pub struct ResponseStaffTypes {
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct RequestContactTypes {}
+pub struct RequestContactTypes {
+    #[prost(string, tag = "1")]
+    pub tenant_id: ::prost::alloc::string::String,
+}
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ResponseContactTypes {

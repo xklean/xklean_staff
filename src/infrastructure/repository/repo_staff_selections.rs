@@ -38,9 +38,11 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_staff_by_id(
         &self,
+        tenant_id:Uuid,
         id: Uuid) -> types::Response<StaffEntity> {
         let staff = TblStaff::find()
-            .filter(tbl_staff::Column::Id.eq(id.clone()))
+            .filter(tbl_staff::Column::Id.eq(id.clone())
+                .and(tbl_staff::Column::TenantId.eq(tenant_id.clone())))
             .one(self.conn.as_ref())
             .await?;
 
@@ -50,7 +52,8 @@ impl ISelectionRepository for Repository {
 
                 let staff_type = TblStaffType::find()
                     .filter(tbl_staff_type::Column::Id
-                        .eq(data_result.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+                        .eq(data_result.staff_type_id.clone())
+                        .and(tbl_staff_type::Column::TenantId.eq(tenant_id.clone()))).one(self.conn.as_ref()).await?;
 
                 match staff_type {
                     Some(stf_type) => {
@@ -74,9 +77,11 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_contacts_staff_id(
         &self,
+        tenant_id:Uuid,
         staff_id: Uuid) -> types::Response<Vec<ent::ContactEntity>> {
         let contacts_staff = TblStaffContact::find()
-            .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone()))
+            .filter(tbl_staff_contact::Column::StaffId.eq(staff_id.clone())
+                .and(tbl_staff_contact::Column::TenantId.eq(tenant_id.clone())))
             .all(self.conn.as_ref())
             .await?;
 
@@ -84,7 +89,8 @@ impl ISelectionRepository for Repository {
 
         for stf_contact in contacts_staff {
             let contact = TblContact::find()
-                .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone()))
+                .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone())
+                    .and(tbl_contact::Column::TenantId.eq(tenant_id.clone())))
                 .one(self.conn.as_ref())
                 .await?;
 
@@ -98,7 +104,8 @@ impl ISelectionRepository for Repository {
             }
 
             let contact_type = TblContactType::find()
-                .filter(tbl_contact_type::Column::Id.eq(stf_contact.contact_type_id.clone()))
+                .filter(tbl_contact_type::Column::Id.eq(stf_contact.contact_type_id.clone())
+                    .and(tbl_contact_type::Column::TenantId.eq(tenant_id.clone())))
                 .one(self.conn.as_ref())
                 .await?;
 
@@ -121,9 +128,11 @@ impl ISelectionRepository for Repository {
     //---------------------------------------------------------------------------
     async fn get_address_staff_id(
         &self,
+        tenant_id:Uuid,
         staff_id: Uuid) -> types::Response<Vec<AddressEntity>> {
         let staff_address = TblStaffAddress::find()
             .filter(tbl_staff_address::Column::StaffId.eq(staff_id.clone())
+                .and(tbl_staff_address::Column::TenantId.eq(tenant_id.clone()))
                 .and(tbl_staff_address::Column::Primary.eq(true)))
             .all(self.conn.as_ref()).await?;
 
@@ -131,7 +140,8 @@ impl ISelectionRepository for Repository {
 
         for staff_addr in staff_address {
             let addresses = TblAddress::find()
-                .filter(tbl_address::Column::Id.eq(staff_addr.address_id.clone()))
+                .filter(tbl_address::Column::Id.eq(staff_addr.address_id.clone())
+                    .and(tbl_address::Column::TenantId.eq(tenant_id.clone())))
                 .one(self.conn.as_ref())
                 .await?;
 
@@ -163,9 +173,11 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_staffs_ids(
         &self,
+        tenant_id:Uuid,
         ids: Vec<Uuid>) -> types::Response<Vec<StaffEntity>> {
         let staffs_list = TblStaff::find()
-            .filter(tbl_staff::Column::Id.is_in(ids.clone()))
+            .filter(tbl_staff::Column::Id.is_in(ids.clone())
+                .and(tbl_staff::Column::TenantId.eq(tenant_id.clone())))
             .all(self.conn.as_ref())
             .await?;
 
@@ -176,7 +188,9 @@ impl ISelectionRepository for Repository {
 
             let staff_type = TblStaffType::find()
                 .filter(tbl_staff_type::Column::Id
-                    .eq(data_staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+                    .eq(data_staff.staff_type_id.clone())
+                    .and(tbl_staff_type::Column::TenantId.eq(tenant_id.clone())))
+                .one(self.conn.as_ref()).await?;
 
             match staff_type {
                 Some(stf_type) => {
@@ -196,9 +210,11 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_contacts_staff_ids(
         &self,
+        tenant_id:Uuid,
         staff_ids: Vec<Uuid>) -> types::Response<HashMap<String, ent::ContactEntity>> {
         let contacts_staff = TblStaffContact::find()
             .filter(tbl_staff_contact::Column::StaffId.is_in(staff_ids.clone())
+                .and(tbl_staff_contact::Column::TenantId.eq(tenant_id.clone()))
                 .and(tbl_staff_contact::Column::Primary.eq(true)))
             .all(self.conn.as_ref())
             .await?;
@@ -207,7 +223,8 @@ impl ISelectionRepository for Repository {
 
         for stf_contact in contacts_staff {
             let contact = TblContact::find()
-                .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone()))
+                .filter(tbl_contact::Column::Id.eq(stf_contact.contact_id.clone())
+                    .and(tbl_contact::Column::TenantId.eq(tenant_id.clone())))
                 .one(self.conn.as_ref())
                 .await?;
 
@@ -221,7 +238,8 @@ impl ISelectionRepository for Repository {
             }
 
             let contact_type = TblContactType::find()
-                .filter(tbl_contact_type::Column::Id.eq(stf_contact.contact_type_id.clone()))
+                .filter(tbl_contact_type::Column::Id.eq(stf_contact.contact_type_id.clone())
+                    .and(tbl_contact_type::Column::TenantId.eq(tenant_id.clone())))
                 .one(self.conn.as_ref())
                 .await?;
 
@@ -244,9 +262,11 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_address_staff_ids(
         &self,
+        tenant_id:Uuid,
         staff_ids: Vec<Uuid>) -> types::Response<Vec<AddressEntity>> {
         let staff_address_list = TblStaffAddress::find()
             .filter(tbl_staff_address::Column::StaffId.is_in(staff_ids.clone())
+                .and(tbl_staff_address::Column::TenantId.eq(tenant_id.clone()))
                 .and(tbl_staff_address::Column::Primary.eq(true)))
             .all(self.conn.as_ref()).await?;
 
@@ -254,7 +274,8 @@ impl ISelectionRepository for Repository {
 
         for stf_add in staff_address_list {
             let addresses_list = TblAddress::find()
-                .filter(tbl_address::Column::Id.eq(stf_add.address_id.clone()))
+                .filter(tbl_address::Column::Id.eq(stf_add.address_id.clone())
+                    .and(tbl_address::Column::TenantId.eq(tenant_id.clone())))
                 .one(self.conn.as_ref())
                 .await?;
 
@@ -286,9 +307,11 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     async fn get_staff_by_name(
         &self,
+        tenant_id:Uuid,
         name: String) -> Response<Vec<StaffEntity>> {
         let staff_list = TblStaff::find()
-            .filter(tbl_staff::Column::FirstName.like(name.clone()))
+            .filter(tbl_staff::Column::FirstName.like(name.clone())
+                .and(tbl_staff::Column::TenantId.eq(tenant_id.clone())))
             .all(self.conn.as_ref())
             .await?;
 
@@ -299,7 +322,9 @@ impl ISelectionRepository for Repository {
 
             let staff_type = TblStaffType::find()
                 .filter(tbl_staff_type::Column::Id
-                    .eq(data_staff.staff_type_id.clone())).one(self.conn.as_ref()).await?;
+                    .eq(data_staff.staff_type_id.clone())
+                    .and(tbl_staff_type::Column::TenantId.eq(tenant_id.clone())))
+                .one(self.conn.as_ref()).await?;
 
             match staff_type {
                 Some(stf_type) => {
@@ -317,10 +342,12 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     // get all staff types.
     //----------------------------------------------------------------------------
-    async fn get_all_staff_types(&self) -> Response<Vec<StaffTypeEntity>> {
+    async fn get_all_staff_types(&self,tenant_id:Uuid) -> Response<Vec<StaffTypeEntity>> {
         let mut staff_type_result: Vec<StaffTypeEntity> = Vec::new();
 
-        let staff_types = TblStaffType::find().all(self.conn.as_ref()).await?;
+        let staff_types = TblStaffType::find()
+            .filter(tbl_staff_type::Column::TenantId.eq(tenant_id.clone()))
+            .all(self.conn.as_ref()).await?;
 
         for sft in staff_types {
             let staff_type = StaffTypeEntity::from(sft);
@@ -334,10 +361,12 @@ impl ISelectionRepository for Repository {
     //----------------------------------------------------------------------------
     // get all contact types.
     //----------------------------------------------------------------------------
-    async fn get_all_contact_types(&self) -> Response<Vec<ContactTypeEntity>> {
+    async fn get_all_contact_types(&self,tenant_id:Uuid) -> Response<Vec<ContactTypeEntity>> {
         let mut contact_type_result: Vec<ContactTypeEntity> = Vec::new();
 
-        let contact_types = TblContactType::find().all(self.conn.as_ref()).await?;
+        let contact_types = TblContactType::find()
+            .filter(tbl_contact_type::Column::TenantId.eq(tenant_id.clone()))
+            .all(self.conn.as_ref()).await?;
 
         for con in contact_types {
             let con_type = ContactTypeEntity::from(con);

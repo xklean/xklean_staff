@@ -42,13 +42,17 @@ message ResponseContactsByStaffId {
     repeated Contact contacts = 1;
 }
 
-message RequestStaffTypes {}
+message RequestStaffTypes {
+    string tenant_id = 1;
+}
 
 message ResponseStaffTypes {
     repeated StaffType staff_types = 1;
 }
 
-message RequestContactTypes {}
+message RequestContactTypes {
+    string tenant_id = 1;
+}
 
 message ResponseContactTypes {
     repeated ContactType contact_types = 1;
