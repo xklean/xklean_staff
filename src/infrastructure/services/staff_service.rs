@@ -199,10 +199,8 @@ impl<S, M> IStaffService for StaffService<S, M>
 
     async fn upsert_staff(
         &self,
-        tenant_id:Uuid,
-        staff: StaffData) -> Response<bool> {
-
-
+        _tenant_id:Uuid,
+        _staff: StaffData) -> Response<bool> {
      Ok(true)
     }
 
