@@ -54,7 +54,6 @@ impl StaffService for StaffServiceApi {
         }
 
         let id = Uuid::parse_str(request_data.id.as_str());
-
         let id = match id {
             Ok(id) => id,
             Err(_) => return Err(Status::new(Code::InvalidArgument, "staff_id is not valid")),
