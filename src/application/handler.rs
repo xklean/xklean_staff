@@ -72,7 +72,7 @@ impl StaffService for StaffServiceApi {
 
         return match staff_result {
             Ok(staff_data) => {
-                let staff_data =pb_staff::Staff::from(staff_data);
+                let staff_data = pb_staff::Staff::from(staff_data);
 
                 let response = pb_staff::ResponseStaffById {
                     staff: Some(staff_data),
@@ -88,13 +88,79 @@ impl StaffService for StaffServiceApi {
     async fn get_staff_by_first_name(
         &self,
         request: Request<RequestStaffFirstName>) -> Result<Response<ResponseStaffByFirstName>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        if request_data.tenant_id == String::from("") {
+            return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid"));
+        }
+
+        if request_data.first_name.is_empty() {
+            return Err(Status::new(Code::InvalidArgument, "first_name is not defined"));
+        }
+
+
+        let tenant_id = Uuid::parse_str(request_data.tenant_id.as_str());
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid")),
+        };
+
+
+        let staff_result = self.staff_service
+            .get_staff_by_first_name(tenant_id, request_data.first_name).await?;
+
+        let mut result_list: Vec<pb_staff::Staff> = Vec::new();
+
+        for stf in staff_result {
+            let staff_data = pb_staff::Staff::from(stf);
+
+            result_list.push(staff_data);
+        }
+
+        let response = pb_staff::ResponseStaffByFirstName {
+            staff: result_list,
+        };
+
+        Ok(Response::new(response))
     }
 
     async fn get_address_by_staff_id(
         &self,
         request: Request<RequestStaffById>) -> Result<Response<ResponseAddressByStaffId>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let staff_id = Uuid::parse_str(request_data.id.as_str());
+        let staff_id = match staff_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(Code::InvalidArgument, "staff_id is not valid")),
+        };
+
+        let tenant_id = Uuid::parse_str(request_data.tenant_id.as_str());
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid")),
+        };
+
+
+        let address = self.staff_service.get_address_by_staff_id(tenant_id, staff_id).await;
+
+        return match address {
+            Ok(add_data) => {
+
+                let add_result=add_data.into_iter().map(|add|->pb_staff::Address{
+                   return  pb_staff::Address::from(add)
+                }).collect();
+
+                let response = pb_staff::ResponseAddressByStaffId {
+                    address: add_result,
+                };
+
+                Ok(Response::new(response))
+            }
+            Err(_) =>{
+                return Err(Status::new(Code::InvalidArgument, "address is not found"))
+            }
+        };
     }
 
     async fn get_contacts_by_staff_id(
