@@ -48,8 +48,34 @@ impl From<&AddressData> for pb_staff::Address {
     }
 }
 
+impl From<AddressData> for pb_staff::Address {
+    fn from(value: AddressData) -> Self {
+        return Self {
+            id: value.id.to_string(),
+            street_name: value.street_name.to_string(),
+            suburb: value.suburb.to_string(),
+            post_code: value.post_code.to_string(),
+            state: value.state.to_string(),
+            country: value.country.to_string(),
+            primary: value.primary,
+        };
+    }
+}
+
 impl From<&ContactData> for pb_staff::Contact {
     fn from(value: &ContactData) -> Self {
+        return Self {
+            id: value.id.to_string(),
+            contact_type_id: value.contact_type_id.to_string(),
+            contact_type: value.contact_type.to_string(),
+            contact: value.contact.to_string(),
+            primary: value.primary,
+        };
+    }
+}
+
+impl From<ContactData> for pb_staff::Contact {
+    fn from(value: ContactData) -> Self {
         return Self {
             id: value.id.to_string(),
             contact_type_id: value.contact_type_id.to_string(),
@@ -69,8 +95,26 @@ impl From<&StaffTypeData> for pb_staff::StaffType {
     }
 }
 
+impl From<StaffTypeData> for pb_staff::StaffType {
+    fn from(value: StaffTypeData) -> Self {
+        return Self {
+            id:value.id.to_string(),
+            staff_type: value.staff_type.to_string(),
+        };
+    }
+}
+
 impl From<&ContactTypeData> for pb_staff::ContactType {
     fn from(value: &ContactTypeData) -> Self {
+        return Self {
+            id:value.id.to_string(),
+            contact_type: value.contact_type.to_string(),
+        };
+    }
+}
+
+impl From<ContactTypeData> for pb_staff::ContactType {
+    fn from(value: ContactTypeData) -> Self {
         return Self {
             id:value.id.to_string(),
             contact_type: value.contact_type.to_string(),

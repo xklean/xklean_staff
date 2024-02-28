@@ -131,21 +131,26 @@ impl StaffService for StaffServiceApi {
         let staff_result = self.staff_service
             .get_staff_by_first_name(
                 tenant_id,
-                request_data.first_name).await?;
+                request_data.first_name).await;
 
-        let mut result_list: Vec<pb_staff::Staff> = Vec::new();
+        return match staff_result {
+            Ok(result) => {
+                let stf_result = result.into_iter()
+                    .map(|staff_data| -> pb_staff::Staff{
+                    let staff_data = pb_staff::Staff::from(staff_data);
+                    return staff_data;
+                }).collect();
 
-        for stf in staff_result {
-            let staff_data = pb_staff::Staff::from(stf);
+                let response = pb_staff::ResponseStaffByFirstName {
+                    staff: stf_result,
+                };
 
-            result_list.push(staff_data);
-        }
-
-        let response = pb_staff::ResponseStaffByFirstName {
-            staff: result_list,
+                Ok(Response::new(response))
+            }
+            Err(_) => return Err(Status::new(
+                Code::Internal,
+                "Failed to get staff data")),
         };
-
-        Ok(Response::new(response))
     }
 
     async fn get_address_by_staff_id(
@@ -179,11 +184,10 @@ impl StaffService for StaffServiceApi {
 
         return match address {
             Ok(add_data) => {
-
-                let add_result=add_data.into_iter()
-                    .map(|add|->pb_staff::Address{
-                   return  pb_staff::Address::from(add)
-                }).collect();
+                let add_result = add_data.into_iter()
+                    .map(|add| -> pb_staff::Address{
+                        return pb_staff::Address::from(add);
+                    }).collect();
 
                 let response = pb_staff::ResponseAddressByStaffId {
                     address: add_result,
@@ -191,8 +195,8 @@ impl StaffService for StaffServiceApi {
 
                 Ok(Response::new(response))
             }
-            Err(_) =>{
-                return Err(Status::new(Code::InvalidArgument, "address is not found"))
+            Err(_) => {
+                return Err(Status::new(Code::InvalidArgument, "address is not found"));
             }
         };
     }
@@ -205,8 +209,8 @@ impl StaffService for StaffServiceApi {
         let staff_id = Uuid::parse_str(
             request_data.id.as_str());
 
-        let staff_id =match staff_id {
-            Ok(id)=>id,
+        let staff_id = match staff_id {
+            Ok(id) => id,
             Err(_) => return Err(
                 Status::new(Code::InvalidArgument,
                             "staff id is not defined"))
@@ -225,23 +229,23 @@ impl StaffService for StaffServiceApi {
 
 
         let contacts = self
-            .staff_service.get_contact_by_staff_id(tenant_id,staff_id).await;
+            .staff_service.get_contact_by_staff_id(tenant_id, staff_id).await;
 
         return match contacts {
-            Ok(contact_data)=>{
+            Ok(contact_data) => {
                 let con_result = contact_data
-                    .into_iter().map(|cont|->pb_staff::Contact{
+                    .into_iter().map(|cont| -> pb_staff::Contact{
                     return pb_staff::Contact::from(cont);
                 }).collect();
 
-                let response =pb_staff::ResponseContactsByStaffId{
-                    contacts:con_result
+                let response = pb_staff::ResponseContactsByStaffId {
+                    contacts: con_result
                 };
 
                 Ok(Response::new(response))
             }
-            Err(_)=>{
-              return  Err(Status::new(Code::Internal,"error in selection"))
+            Err(_) => {
+                return Err(Status::new(Code::Internal, "error in selection"));
             }
         };
     }
@@ -268,17 +272,17 @@ impl StaffService for StaffServiceApi {
 
         return match staff_types {
             Ok(staff_type_data) => {
-                 let staff_type_result =staff_type_data
-                     .into_iter().map(|types_data|->pb_staff::StaffType{
-                     return pb_staff::StaffType::from(types_data)
-                 }).collect();
+                let staff_type_result = staff_type_data
+                    .into_iter().map(|types_data| -> pb_staff::StaffType{
+                    return pb_staff::StaffType::from(types_data);
+                }).collect();
 
                 Ok(Response::new(ResponseStaffTypes {
                     staff_types: staff_type_result,
                 }))
             }
             Err(_) => {
-                return Err(Status::new(Code::Internal,"error selection staff types"))
+                return Err(Status::new(Code::Internal, "error selection staff types"));
             }
         };
     }
@@ -305,17 +309,17 @@ impl StaffService for StaffServiceApi {
 
         return match contact_types {
             Ok(contact_type_data) => {
-                let contact_type_result =contact_type_data
-                    .into_iter().map(|types_data|->pb_staff::ContactType{
-                    return pb_staff::ContactType::from(types_data)
+                let contact_type_result = contact_type_data
+                    .into_iter().map(|types_data| -> pb_staff::ContactType{
+                    return pb_staff::ContactType::from(types_data);
                 }).collect();
 
                 Ok(Response::new(ResponseContactTypes {
-                   contact_types : contact_type_result,
+                    contact_types: contact_type_result,
                 }))
             }
             Err(_) => {
-                return Err(Status::new(Code::Internal,"error selection staff types"))
+                return Err(Status::new(Code::Internal, "error selection staff types"));
             }
         };
     }
