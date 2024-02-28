@@ -39,3 +39,17 @@ impl From<AddressData> for AddressEntity{
         }
     }
 }
+
+impl From<&AddressData> for AddressEntity{
+fn from(value: &AddressData) -> Self {
+    return Self{
+        id: value.id,
+        street_name: value.street_name.to_string(),
+        suburb: value.suburb.to_string(),
+        post_code: value.post_code.to_string(),
+        state: value.state.to_string(),
+        country:value.country.to_string(),
+        primary: value.primary,
+    }
+}
+}

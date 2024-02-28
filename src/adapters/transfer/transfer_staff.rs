@@ -72,3 +72,26 @@ impl From<StaffData> for StaffEntity {
         }
     }
 }
+
+impl From<&StaffData> for StaffEntity {
+    fn from(value: &StaffData) -> Self {
+        return Self{
+            id: value.id,
+            first_name: value.first_name.to_string(),
+            last_name: value.last_name.to_string(),
+            email_address: value.email_address.to_string(),
+            vehicle_registration: value.vehicle_registration.clone(),
+            staff_type_id:value.staff_type_id,
+            staff_type: value.staff_type.to_string(),
+            tenant_id:value.tenant_id,
+            sex: value.sex.to_string(),
+            hourly_rate: value.hourly_rate,
+            active: value.active,
+            commence_date: value.commence_date,
+            operation_user_id:value.operation_user_id,
+            created_at: value.created_at,
+            updated_at: value.updated_at,
+            deleted_at: value.deleted_at,
+        }
+    }
+}

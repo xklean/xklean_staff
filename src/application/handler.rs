@@ -6,6 +6,7 @@ use crate::adapters::service::IStaffService;
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
 use crate::pb_staff::{
+    RequestAddressUpsert,
     RequestContactTypes,
     RequestStaffById,
     RequestStaffFirstName,
@@ -327,6 +328,10 @@ impl StaffService for StaffServiceApi {
     async fn upsert_staff(
         &self,
         request: Request<RequestStaffUpsert>) -> Result<Response<ResponseStaffUpsert>, Status> {
+        todo!()
+    }
+
+    async fn upsert_address(&self, request: Request<RequestAddressUpsert>) -> Result<Response<RequestAddressUpsert>, Status> {
         todo!()
     }
 }

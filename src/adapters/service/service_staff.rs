@@ -11,6 +11,7 @@ pub trait IStaffService :Sync +Send {
     async fn get_contact_by_staff_id(&self,tenant_id:Uuid,staff_id:Uuid)-> Response<Vec<ContactData>>;
     async fn get_all_staff_types(&self,tenant_id:Uuid,)-> Response<Vec<StaffTypeData>>;
     async fn get_all_contact_types(&self,tenant_id:Uuid,)-> Response<Vec<ContactTypeData>>;
-    async fn upsert_staff(&self,tenant_id:Uuid,staff:StaffData)-> Response<bool>;
     async fn get_staffs_by_ids(&self,tenant_id:Uuid,ids:Vec<uuid::Uuid>)->Response<Vec<StaffData>>;
+    async fn upsert_staff(&self,tenant_id:Uuid,staff:StaffData)-> Response<bool>;
+    async fn upsert_address(&self,tenant_id:Uuid,address:AddressData)->Response<bool>;
 }

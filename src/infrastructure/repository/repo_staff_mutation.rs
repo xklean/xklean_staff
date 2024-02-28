@@ -12,7 +12,7 @@ impl IMutationRepository for Repository {
     //---------------------------------------------------------------------------
     //create staff
     //---------------------------------------------------------------------------
-    async fn create_staff(
+    async fn upsert_staff(
         &self,
         tenant_id: Uuid,
         staff: Box<Arc<StaffEntity>>) -> types::Response<Uuid> {
