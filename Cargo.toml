@@ -31,7 +31,7 @@ validator = {version = "0.16.1",features = ["derive"]}
 num-traits = "0.2.18"
 anyhow = "1.0.79"
 log = "0.4.20"
-
+crossbeam = "0.8.4"
 
 [build-dependencies]
 tonic-build = "0.10.2"

@@ -1,4 +1,4 @@
-use crate::adapters::transfer::{AddressData, ContactData, StaffData};
+use crate::adapters::transfer::{AddressData, ContactData, ContactTypeData, StaffData, StaffTypeData};
 
 impl From<StaffData> for pb_staff::Staff {
     fn from(value: StaffData) -> Self {
@@ -56,6 +56,24 @@ impl From<&ContactData> for pb_staff::Contact {
             contact_type: value.contact_type.to_string(),
             contact: value.contact.to_string(),
             primary: value.primary,
+        };
+    }
+}
+
+impl From<&StaffTypeData> for pb_staff::StaffType {
+    fn from(value: &StaffTypeData) -> Self {
+        return Self {
+            id:value.id.to_string(),
+            staff_type: value.staff_type.to_string(),
+        };
+    }
+}
+
+impl From<&ContactTypeData> for pb_staff::ContactType {
+    fn from(value: &ContactTypeData) -> Self {
+        return Self {
+            id:value.id.to_string(),
+            contact_type: value.contact_type.to_string(),
         };
     }
 }

@@ -46,24 +46,36 @@ impl StaffService for StaffServiceApi {
         let request_data = request.into_inner();
 
         if request_data.id == String::from("") {
-            return Err(Status::new(Code::InvalidArgument, "staff_id is not valid"));
+            return Err(Status::new(
+                Code::InvalidArgument,
+                "staff_id is not valid"));
         }
 
         if request_data.tenant_id == String::from("") {
-            return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid"));
+            return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid"));
         }
 
-        let id = Uuid::parse_str(request_data.id.as_str());
+        let id = Uuid::parse_str(
+            request_data.id.as_str());
+
         let id = match id {
             Ok(id) => id,
-            Err(_) => return Err(Status::new(Code::InvalidArgument, "staff_id is not valid")),
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "staff_id is not valid")),
         };
 
 
-        let tenant_id = Uuid::parse_str(request_data.tenant_id.as_str());
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
         let tenant_id = match tenant_id {
             Ok(id) => id,
-            Err(_) => return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid")),
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
         };
 
 
@@ -80,7 +92,9 @@ impl StaffService for StaffServiceApi {
 
                 Ok(Response::new(response))
             }
-            Err(_) => Err(Status::new(Code::Internal, "Failed to get staff by staff id")),
+            Err(_) => Err(Status::new(
+                Code::Internal,
+                "Failed to get staff by staff id")),
         };
     }
 
@@ -91,23 +105,33 @@ impl StaffService for StaffServiceApi {
         let request_data = request.into_inner();
 
         if request_data.tenant_id == String::from("") {
-            return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid"));
+            return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid"));
         }
 
         if request_data.first_name.is_empty() {
-            return Err(Status::new(Code::InvalidArgument, "first_name is not defined"));
+            return Err(Status::new(
+                Code::InvalidArgument,
+                "first_name is not defined"));
         }
 
 
-        let tenant_id = Uuid::parse_str(request_data.tenant_id.as_str());
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
         let tenant_id = match tenant_id {
             Ok(id) => id,
-            Err(_) => return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid")),
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
         };
 
 
         let staff_result = self.staff_service
-            .get_staff_by_first_name(tenant_id, request_data.first_name).await?;
+            .get_staff_by_first_name(
+                tenant_id,
+                request_data.first_name).await?;
 
         let mut result_list: Vec<pb_staff::Staff> = Vec::new();
 
@@ -129,25 +153,35 @@ impl StaffService for StaffServiceApi {
         request: Request<RequestStaffById>) -> Result<Response<ResponseAddressByStaffId>, Status> {
         let request_data = request.into_inner();
 
-        let staff_id = Uuid::parse_str(request_data.id.as_str());
+        let staff_id = Uuid::parse_str(
+            request_data.id.as_str());
+
         let staff_id = match staff_id {
             Ok(id) => id,
-            Err(_) => return Err(Status::new(Code::InvalidArgument, "staff_id is not valid")),
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "staff_id is not valid")),
         };
 
-        let tenant_id = Uuid::parse_str(request_data.tenant_id.as_str());
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
         let tenant_id = match tenant_id {
             Ok(id) => id,
-            Err(_) => return Err(Status::new(Code::InvalidArgument, "tenant_id is not valid")),
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
         };
 
 
-        let address = self.staff_service.get_address_by_staff_id(tenant_id, staff_id).await;
+        let address = self.staff_service.
+            get_address_by_staff_id(tenant_id, staff_id).await;
 
         return match address {
             Ok(add_data) => {
 
-                let add_result=add_data.into_iter().map(|add|->pb_staff::Address{
+                let add_result=add_data.into_iter()
+                    .map(|add|->pb_staff::Address{
                    return  pb_staff::Address::from(add)
                 }).collect();
 
@@ -166,19 +200,124 @@ impl StaffService for StaffServiceApi {
     async fn get_contacts_by_staff_id(
         &self,
         request: Request<RequestStaffById>) -> Result<Response<ResponseContactsByStaffId>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let staff_id = Uuid::parse_str(
+            request_data.id.as_str());
+
+        let staff_id =match staff_id {
+            Ok(id)=>id,
+            Err(_) => return Err(
+                Status::new(Code::InvalidArgument,
+                            "staff id is not defined"))
+        };
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+
+        let contacts = self
+            .staff_service.get_contact_by_staff_id(tenant_id,staff_id).await;
+
+        return match contacts {
+            Ok(contact_data)=>{
+                let con_result = contact_data
+                    .into_iter().map(|cont|->pb_staff::Contact{
+                    return pb_staff::Contact::from(cont);
+                }).collect();
+
+                let response =pb_staff::ResponseContactsByStaffId{
+                    contacts:con_result
+                };
+
+                Ok(Response::new(response))
+            }
+            Err(_)=>{
+              return  Err(Status::new(Code::Internal,"error in selection"))
+            }
+        };
     }
 
     async fn get_all_staff_type(
         &self,
         request: Request<RequestStaffTypes>) -> Result<Response<ResponseStaffTypes>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+        let staff_types = self
+            .staff_service.get_all_staff_types(tenant_id).await;
+
+
+        return match staff_types {
+            Ok(staff_type_data) => {
+                 let staff_type_result =staff_type_data
+                     .into_iter().map(|types_data|->pb_staff::StaffType{
+                     return pb_staff::StaffType::from(types_data)
+                 }).collect();
+
+                Ok(Response::new(ResponseStaffTypes {
+                    staff_types: staff_type_result,
+                }))
+            }
+            Err(_) => {
+                return Err(Status::new(Code::Internal,"error selection staff types"))
+            }
+        };
     }
 
     async fn get_all_contact_type(
         &self,
         request: Request<RequestContactTypes>) -> Result<Response<ResponseContactTypes>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+        let contact_types = self
+            .staff_service.get_all_contact_types(tenant_id).await;
+
+
+        return match contact_types {
+            Ok(contact_type_data) => {
+                let contact_type_result =contact_type_data
+                    .into_iter().map(|types_data|->pb_staff::ContactType{
+                    return pb_staff::ContactType::from(types_data)
+                }).collect();
+
+                Ok(Response::new(ResponseContactTypes {
+                   contact_types : contact_type_result,
+                }))
+            }
+            Err(_) => {
+                return Err(Status::new(Code::Internal,"error selection staff types"))
+            }
+        };
     }
 
     async fn upsert_staff(
