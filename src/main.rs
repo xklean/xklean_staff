@@ -42,7 +42,8 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
         Err(err) => panic!("{}", err)
     };
 
-    let repo=Arc::new(Repository::new(db_conn));
+    let repo_instance =Repository::new(db_conn);
+    let repo=Arc::new(repo_instance);
 
 
     let staff_service = StaffService::new(Box::new(repo.clone()),Box::new(repo.clone()));
