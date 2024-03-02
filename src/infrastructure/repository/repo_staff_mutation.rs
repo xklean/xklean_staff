@@ -57,6 +57,7 @@ impl IMutationRepository for Repository {
             return Ok(staff_id);
         }
 
+
         let staff_model = tbl_staff::ActiveModel {
             id: Set(staff_id.to_owned()),
             first_name: Set(stf.first_name.to_owned()),
@@ -70,7 +71,7 @@ impl IMutationRepository for Repository {
             hourly_rate: Set(hour_rate),
             created_at: Set(Utc::now().naive_utc().to_owned()),
             updated_at: Set(None),
-            commence_date: Set(Utc::now().naive_utc().date().to_owned()),
+            commence_date: Set(stf.commence_date.to_owned()),
             deleted_at: Set(None),
             operation_user_id: Set(stf.operation_user_id.to_owned()),
 

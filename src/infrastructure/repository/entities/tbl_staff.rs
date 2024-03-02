@@ -19,7 +19,7 @@ pub struct Model {
     pub hourly_rate: Decimal,
     pub created_at: DateTime,
     pub updated_at: Option<DateTime>,
-    pub commence_date: Date,
+    pub commence_date: Option<Date>,
     pub deleted_at: Option<DateTime>,
     pub operation_user_id: Uuid,
 }

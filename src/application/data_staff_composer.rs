@@ -74,9 +74,6 @@ impl From<Staff> for StaffData {
             active: value.active,
             commence_date: Default::default(),
             operation_user_id: Default::default(),
-            created_at: Default::default(),
-            updated_at: None,
-            deleted_at: None,
             address: data_address,
             contacts: data_contacts,
         };

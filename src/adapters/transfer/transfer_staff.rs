@@ -16,11 +16,8 @@ pub struct  StaffData{
     pub sex:String,
     pub hourly_rate:f32,
     pub active:bool,
-    pub commence_date:NaiveDate,
+    pub commence_date:Option<NaiveDate>,
     pub operation_user_id:Uuid,
-    pub created_at:DateTime,
-    pub updated_at:Option<DateTime>,
-    pub deleted_at:Option<DateTime>,
     pub address: Vec<AddressData>,
     pub contacts:Vec<ContactData>
 }
@@ -41,9 +38,6 @@ impl From<StaffEntity> for StaffData{
             active: value.active,
             commence_date: value.commence_date,
             operation_user_id:value.operation_user_id,
-            created_at: value.created_at,
-            updated_at: value.updated_at,
-            deleted_at: value.deleted_at,
             address: vec![],
             contacts: vec![],
         }
@@ -66,9 +60,6 @@ impl From<StaffData> for StaffEntity {
             active: value.active,
             commence_date: value.commence_date,
             operation_user_id:value.operation_user_id,
-            created_at: value.created_at,
-            updated_at: value.updated_at,
-            deleted_at: value.deleted_at,
         }
     }
 }
@@ -89,9 +80,6 @@ impl From<&StaffData> for StaffEntity {
             active: value.active,
             commence_date: value.commence_date,
             operation_user_id:value.operation_user_id,
-            created_at: value.created_at,
-            updated_at: value.updated_at,
-            deleted_at: value.deleted_at,
         }
     }
 }

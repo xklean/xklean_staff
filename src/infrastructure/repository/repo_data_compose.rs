@@ -23,10 +23,7 @@ impl From<tbl_staff::Model> for entities::StaffEntity{
             hourly_rate: hour_rate,
             active: staff.active,
             commence_date: staff.commence_date,
-            operation_user_id: staff.operation_user_id,
-            created_at: staff.created_at,
-            updated_at: staff.updated_at,
-            deleted_at: None,
+            operation_user_id: staff.operation_user_id
         }
     }
 }
