@@ -41,7 +41,6 @@ impl From<StaffData> for pb_staff::Staff {
         return staff;
     }
 }
-
 impl From<Staff> for StaffData {
     fn from(value: Staff) -> Self {
         let data_address = value.address.iter().map(|add| {
@@ -81,7 +80,6 @@ impl From<Staff> for StaffData {
         return staff;
     }
 }
-
 impl From<&AddressData> for pb_staff::Address {
     fn from(value: &AddressData) -> Self {
         return Self {
@@ -95,7 +93,6 @@ impl From<&AddressData> for pb_staff::Address {
         };
     }
 }
-
 impl From<AddressData> for pb_staff::Address {
     fn from(value: AddressData) -> Self {
         return Self {
@@ -109,7 +106,6 @@ impl From<AddressData> for pb_staff::Address {
         };
     }
 }
-
 impl From<&Address> for AddressData {
     fn from(value: &Address) -> Self {
         let id = Uuid::parse_str(
@@ -128,7 +124,6 @@ impl From<&Address> for AddressData {
         };
     }
 }
-
 impl From<Address> for AddressData {
     fn from(value: Address) -> Self {
         let id = Uuid::parse_str(
@@ -147,8 +142,6 @@ impl From<Address> for AddressData {
         };
     }
 }
-
-
 impl From<&ContactData> for pb_staff::Contact {
     fn from(value: &ContactData) -> Self {
         return Self {
@@ -160,7 +153,6 @@ impl From<&ContactData> for pb_staff::Contact {
         };
     }
 }
-
 impl From<&Contact> for ContactData {
     fn from(value: &Contact) -> Self {
         let id = Uuid::parse_str(value.id.as_str());
@@ -178,8 +170,6 @@ impl From<&Contact> for ContactData {
         };
     }
 }
-
-
 impl From<ContactData> for pb_staff::Contact {
     fn from(value: ContactData) -> Self {
         return Self {
@@ -191,7 +181,6 @@ impl From<ContactData> for pb_staff::Contact {
         };
     }
 }
-
 impl From<Contact> for ContactData {
     fn from(value: Contact) -> Self {
         let id = Uuid::parse_str(value.id.as_str());
@@ -209,7 +198,6 @@ impl From<Contact> for ContactData {
         };
     }
 }
-
 impl From<&StaffTypeData> for pb_staff::StaffType {
     fn from(value: &StaffTypeData) -> Self {
         return Self {
@@ -218,7 +206,6 @@ impl From<&StaffTypeData> for pb_staff::StaffType {
         };
     }
 }
-
 impl From<StaffTypeData> for pb_staff::StaffType {
     fn from(value: StaffTypeData) -> Self {
         return Self {
@@ -227,7 +214,6 @@ impl From<StaffTypeData> for pb_staff::StaffType {
         };
     }
 }
-
 impl From<&ContactTypeData> for pb_staff::ContactType {
     fn from(value: &ContactTypeData) -> Self {
         return Self {
@@ -236,7 +222,6 @@ impl From<&ContactTypeData> for pb_staff::ContactType {
         };
     }
 }
-
 impl From<ContactTypeData> for pb_staff::ContactType {
     fn from(value: ContactTypeData) -> Self {
         return Self {
