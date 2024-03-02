@@ -15,4 +15,6 @@ pub trait IStaffService :Sync +Send {
     async fn upsert_staff(&self,tenant_id:Uuid,staff:StaffData)-> Response<bool>;
     async fn upsert_address(&self,tenant_id:Uuid,staff_id: Uuid,address:AddressData)->Response<bool>;
     async fn upsert_contact(&self,tenant_id:Uuid,staff_id: Uuid,contact:ContactData)->Response<bool>;
+    async fn upsert_contact_type(&self,tenant_id:Uuid,contact_type:ContactTypeData)->Response<bool>;
+    async fn upsert_staff_type(&self,tenant_id:Uuid,staff_type:StaffTypeData)->Response<bool>;
 }

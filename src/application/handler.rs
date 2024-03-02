@@ -5,7 +5,7 @@ use crate::adapters::repository::IMutationRepository;
 use crate::adapters::service::IStaffService;
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
-use crate::pb_staff::{RequestAddressUpsert, RequestContactTypes, RequestContactUpsert, RequestStaffById, RequestStaffFirstName, RequestStaffTypes, RequestStaffUpsert, ResponseAddressByStaffId, ResponseAddressUpsert, ResponseContactsByStaffId, ResponseContactTypes, ResponseContactUpsert, ResponseStaffByFirstName, ResponseStaffById, ResponseStaffTypes, ResponseStaffUpsert};
+use crate::pb_staff::{RequestAddressUpsert, RequestContactTypes, RequestContactTypeUpsert, RequestContactUpsert, RequestStaffById, RequestStaffFirstName, RequestStaffTypes, RequestStaffTypeUpsert, RequestStaffUpsert, ResponseAddressByStaffId, ResponseAddressUpsert, ResponseContactsByStaffId, ResponseContactTypes, ResponseContactTypeUpsert, ResponseContactUpsert, ResponseStaffByFirstName, ResponseStaffById, ResponseStaffTypes, ResponseStaffTypeUpsert, ResponseStaffUpsert};
 use crate::pb_staff::staff_service_server::{StaffService};
 
 use uuid::Error as UuidError;
@@ -451,5 +451,17 @@ impl StaffService for StaffServiceApi {
             }
         }
      }
+
+    async fn upsert_staff_type(
+        &self,
+        request: Request<RequestStaffTypeUpsert>) -> Result<Response<ResponseStaffTypeUpsert>, Status> {
+        todo!()
+    }
+
+    async fn upsert_contact_type(
+        &self,
+        request: Request<RequestContactTypeUpsert>) -> Result<Response<ResponseContactTypeUpsert>, Status> {
+        todo!()
+    }
 }
 

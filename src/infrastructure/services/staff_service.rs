@@ -300,6 +300,24 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(result)
     }
+    //------------------------------------------------------------------------
+    //upsert contact type if exists it update else insert.
+    //------------------------------------------------------------------------
+    async fn upsert_contact_type(
+        &self,
+        tenant_id: Uuid,
+        contact_type: ContactTypeData) -> Response<bool> {
+        todo!()
+    }
+    //------------------------------------------------------------------------
+    //upsert staff type if exists it update else insert.
+    //------------------------------------------------------------------------
+    async fn upsert_staff_type(
+        &self,
+        tenant_id: Uuid,
+        staff_type: StaffTypeData) -> Response<bool> {
+        todo!()
+    }
 }
 
 

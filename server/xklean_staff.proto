@@ -12,8 +12,10 @@ service StaffService {
     rpc GetAllStaffType (RequestStaffTypes) returns (ResponseStaffTypes);
     rpc GetAllContactType (RequestContactTypes) returns (ResponseContactTypes);
     rpc UpsertStaff (RequestStaffUpsert) returns (ResponseStaffUpsert);
-    rpc UpsertAddress(RequestAddressUpsert) returns (ResponseAddressUpsert);
-    rpc UpsertContact(RequestContactUpsert) returns (ResponseContactUpsert);
+    rpc UpsertAddress (RequestAddressUpsert) returns (ResponseAddressUpsert);
+    rpc UpsertContact (RequestContactUpsert) returns (ResponseContactUpsert);
+    rpc UpsertStaffType (RequestStaffTypeUpsert) returns (ResponseStaffTypeUpsert);
+    rpc UpsertContactType (RequestContactTypeUpsert) returns (ResponseContactTypeUpsert);
 }
 
 message RequestStaffById {
@@ -86,6 +88,24 @@ message RequestContactUpsert {
 }
 
 message ResponseContactUpsert {
+    bool success = 1;
+}
+
+message RequestContactTypeUpsert {
+    string tenant_id = 1;
+    ContactType contact_type = 2;
+}
+
+message ResponseContactTypeUpsert {
+    bool success = 1;
+}
+
+message RequestStaffTypeUpsert {
+    string tenant_id = 1;
+    StaffType staff_type = 2;
+}
+
+message ResponseStaffTypeUpsert {
     bool success = 1;
 }
 
