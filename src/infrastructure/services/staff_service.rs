@@ -22,7 +22,7 @@ pub struct StaffService<S, M:>
 }
 
 impl<S, M> StaffService<S, M> where S: ISelectionRepository, M: IMutationRepository {
-    pub fn new(sel_repo: Box<Arc<S>>, mut_repo: Box<Arc<M>>) -> Self <> {
+    pub fn new(sel_repo: Box<Arc<S>>, mut_repo: Box<Arc<M>>) -> Self {
         return Self {
             sel_repo,
             mut_repo,
@@ -66,7 +66,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(staff_data)
     }
-
     //-------------------------------------------------------------------------
     //get staff by first name with related address and contacts
     //-------------------------------------------------------------------------
@@ -106,7 +105,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(staff_result)
     }
-
     //------------------------------------------------------------------------
     //get address by staff id
     //------------------------------------------------------------------------
@@ -153,7 +151,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(contact_result)
     }
-
     //------------------------------------------------------------------------
     //get all staff types
     //------------------------------------------------------------------------
@@ -175,7 +172,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(staff_type_result)
     }
-
     //------------------------------------------------------------------------
     //get all contact types
     //------------------------------------------------------------------------
@@ -196,7 +192,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(contact_type_result)
     }
-
     //------------------------------------------------------------------------
     //get all staff by ids without address and contact included.
     //------------------------------------------------------------------------
@@ -217,7 +212,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(staff_result)
     }
-
     //------------------------------------------------------------------------
     //upsert staff if exists it update else insert.
     //------------------------------------------------------------------------
@@ -264,7 +258,6 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(true)
     }
-
     //------------------------------------------------------------------------
     //upsert address if exists it update else insert.
     //------------------------------------------------------------------------

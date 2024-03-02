@@ -27,7 +27,6 @@ impl From<tbl_staff::Model> for entities::StaffEntity{
         }
     }
 }
-
 impl From<tbl_contact::Model> for entities::ContactEntity  {
     fn from(value: tbl_contact::Model) -> Self {
         return Self{
@@ -39,7 +38,6 @@ impl From<tbl_contact::Model> for entities::ContactEntity  {
         }
     }
 }
-
 impl From<tbl_address::Model> for entities::AddressEntity {
     fn from(value: tbl_address::Model) -> Self {
         return Self{
@@ -53,7 +51,6 @@ impl From<tbl_address::Model> for entities::AddressEntity {
         }
     }
 }
-
 impl From<tbl_contact_type::Model> for entities::ContactTypeEntity {
     fn from(value: tbl_contact_type::Model) -> Self {
         return Self{
@@ -62,7 +59,6 @@ impl From<tbl_contact_type::Model> for entities::ContactTypeEntity {
         }
     }
 }
-
 impl From<tbl_staff_type::Model> for entities::StaffTypeEntity {
     fn from(value: tbl_staff_type::Model) -> Self {
         return Self{
@@ -71,3 +67,5 @@ impl From<tbl_staff_type::Model> for entities::StaffTypeEntity {
         }
     }
 }
+
+
