@@ -121,6 +121,10 @@ pub struct Staff {
     pub address: ::prost::alloc::vec::Vec<Address>,
     #[prost(message, repeated, tag = "13")]
     pub contacts: ::prost::alloc::vec::Vec<Contact>,
+    #[prost(message, optional, tag = "14")]
+    pub commence_date: ::core::option::Option<::prost_types::Timestamp>,
+    #[prost(string, tag = "15")]
+    pub operation_user_id: ::prost::alloc::string::String,
 }
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -444,7 +448,7 @@ pub mod staff_service_client {
             &mut self,
             request: impl tonic::IntoRequest<super::RequestAddressUpsert>,
         ) -> std::result::Result<
-            tonic::Response<super::RequestAddressUpsert>,
+            tonic::Response<super::ResponseAddressUpsert>,
             tonic::Status,
         > {
             self.inner
@@ -527,7 +531,7 @@ pub mod staff_service_server {
             &self,
             request: tonic::Request<super::RequestAddressUpsert>,
         ) -> std::result::Result<
-            tonic::Response<super::RequestAddressUpsert>,
+            tonic::Response<super::ResponseAddressUpsert>,
             tonic::Status,
         >;
     }
@@ -954,7 +958,7 @@ pub mod staff_service_server {
                         T: StaffService,
                     > tonic::server::UnaryService<super::RequestAddressUpsert>
                     for UpsertAddressSvc<T> {
-                        type Response = super::RequestAddressUpsert;
+                        type Response = super::ResponseAddressUpsert;
                         type Future = BoxFuture<
                             tonic::Response<Self::Response>,
                             tonic::Status,

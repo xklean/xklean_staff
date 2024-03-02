@@ -13,6 +13,7 @@ use crate::pb_staff::{
     RequestStaffTypes,
     RequestStaffUpsert,
     ResponseAddressByStaffId,
+    ResponseAddressUpsert,
     ResponseContactsByStaffId,
     ResponseContactTypes,
     ResponseStaffByFirstName,
@@ -328,11 +329,90 @@ impl StaffService for StaffServiceApi {
     async fn upsert_staff(
         &self,
         request: Request<RequestStaffUpsert>) -> Result<Response<ResponseStaffUpsert>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+       let staff_data = match request_data.staff{
+            Some(st)=> {
+                 StaffData::from(st)
+            }
+
+            None => return Err(
+                Status::new(Code::Internal,
+                            "error update staff types"))
+        };
+
+        let staff_result =  self.staff_service.upsert_staff(tenant_id,staff_data).await;
+        match staff_result{
+            Ok(result)=> {
+                Ok(Response::new(ResponseStaffUpsert{
+                    success:result
+                }))
+            }
+            Err(_) => {
+                Err(Status::new(Code::Internal,
+                            "error update staff "))
+            }
+        }
     }
 
-    async fn upsert_address(&self, request: Request<RequestAddressUpsert>) -> Result<Response<RequestAddressUpsert>, Status> {
-        todo!()
+    async fn upsert_address(
+        &self,
+        request: Request<RequestAddressUpsert>) -> Result<Response<ResponseAddressUpsert>, Status> {
+        let request_data = request.into_inner();
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+        let staff_id = Uuid::parse_str(
+            request_data.staff_id.as_str());
+
+        let staff_id = match staff_id {
+            Ok(id) => id,
+            Err(_) => return Err(
+                Status::new(Code::InvalidArgument,
+                            "staff id is not defined"))
+        };
+
+
+        let address_data = match request_data.address{
+            Some(add)=> {
+                AddressData::from(add)
+            }
+
+            None => return Err(Status::new(Code::Internal,"error update staff types"))
+        };
+
+        let address_result = self.staff_service
+            .upsert_address(tenant_id,staff_id,address_data).await;
+
+        match address_result {
+            Ok(result)=>{
+                Ok(Response::new(ResponseAddressUpsert {
+                    success:result
+                }))
+            }
+             Err(_)=> {
+                 return Err(Status::new(Code::Internal,       "error update address "))
+            }
+        }
+
     }
 }
 

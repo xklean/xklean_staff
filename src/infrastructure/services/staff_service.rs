@@ -264,8 +264,29 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(true)
     }
-    async fn upsert_address(&self, _tenant_id: Uuid, _address: AddressData) -> Response<bool> {
-        todo!()
+
+    //------------------------------------------------------------------------
+    //upsert address if exists it update else insert.
+    //------------------------------------------------------------------------
+    async fn upsert_address(
+        &self,
+        tenant_id: Uuid,
+        staff_id: Uuid,
+        address: AddressData) -> Response<bool> {
+        let mut_repo = &(**self.mut_repo);
+
+        let address_entity = AddressEntity::from(address);
+
+        let transfer_address = Arc::new(vec![address_entity]);
+        let add_arc = Arc::clone(&transfer_address);
+
+        let result = mut_repo
+            .upsert_address(
+                tenant_id.clone(),
+                staff_id.clone(),
+                Box::new(add_arc)).await?;
+
+        Ok(result)
     }
 }
 

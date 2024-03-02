@@ -12,7 +12,7 @@ service StaffService {
     rpc GetAllStaffType (RequestStaffTypes) returns (ResponseStaffTypes);
     rpc GetAllContactType (RequestContactTypes) returns (ResponseContactTypes);
     rpc UpsertStaff (RequestStaffUpsert) returns (ResponseStaffUpsert);
-    rpc UpsertAddress(RequestAddressUpsert) returns (RequestAddressUpsert);
+    rpc UpsertAddress(RequestAddressUpsert) returns (ResponseAddressUpsert);
 }
 
 message RequestStaffById {
@@ -93,6 +93,8 @@ message Staff {
     bool active = 11;
     repeated Address address = 12;
     repeated Contact contacts = 13;
+    optional google.protobuf.Timestamp commence_date = 14;
+    string operation_user_id = 15;
 }
 
 message Contact {
