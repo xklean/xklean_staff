@@ -13,6 +13,7 @@ service StaffService {
     rpc GetAllContactType (RequestContactTypes) returns (ResponseContactTypes);
     rpc UpsertStaff (RequestStaffUpsert) returns (ResponseStaffUpsert);
     rpc UpsertAddress(RequestAddressUpsert) returns (ResponseAddressUpsert);
+    rpc UpsertContact(RequestContactUpsert) returns (ResponseContactUpsert);
 }
 
 message RequestStaffById {
@@ -78,6 +79,15 @@ message ResponseAddressUpsert {
     bool success = 1;
 }
 
+message RequestContactUpsert {
+    string tenant_id = 1;
+    string staff_id = 2;
+    Contact contact = 3;
+}
+
+message ResponseContactUpsert {
+    bool success = 1;
+}
 
 message Staff {
     string id = 1;

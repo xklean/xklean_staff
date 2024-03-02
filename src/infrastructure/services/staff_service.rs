@@ -281,6 +281,25 @@ impl<S, M> IStaffService for StaffService<S, M>
 
         Ok(result)
     }
+    //------------------------------------------------------------------------
+    //upsert contact if exists it update else insert.
+    //------------------------------------------------------------------------
+    async fn upsert_contact(
+        &self,
+        tenant_id: Uuid,
+        staff_id: Uuid,
+        contact: ContactData) -> Response<bool> {
+        let mut_repo = &(**self.mut_repo);
+
+        let contact_entity = ContactEntity::from(contact);
+        let trans_contact =Arc::new(vec![contact_entity]);
+
+
+        let result = mut_repo
+            .upsert_contacts(tenant_id,staff_id,Box::new(Arc::clone(&trans_contact))).await?;
+
+        Ok(result)
+    }
 }
 
 
