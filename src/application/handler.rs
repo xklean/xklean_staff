@@ -455,13 +455,85 @@ impl StaffService for StaffServiceApi {
     async fn upsert_staff_type(
         &self,
         request: Request<RequestStaffTypeUpsert>) -> Result<Response<ResponseStaffTypeUpsert>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+
+        let staff_type_data = match request_data.staff_type{
+            Some(staff_type)=> {
+                StaffTypeData::from(staff_type)
+            }
+
+            None => return Err(
+                Status::new(
+                    Code::Internal,"error update staff type"))
+        };
+
+        let staff_type_result = self.staff_service
+            .upsert_staff_type(tenant_id,staff_type_data).await;
+
+        match staff_type_result {
+            Ok(result)=>{
+                Ok(Response::new(ResponseStaffTypeUpsert {
+                    success:result
+                }))
+            }
+            Err(_)=> {
+                return Err(Status::new(Code::Internal,
+                                       "error update contact "))
+            }
+        }
     }
 
     async fn upsert_contact_type(
         &self,
         request: Request<RequestContactTypeUpsert>) -> Result<Response<ResponseContactTypeUpsert>, Status> {
-        todo!()
+        let request_data = request.into_inner();
+
+        let tenant_id = Uuid::parse_str(
+            request_data.tenant_id.as_str());
+
+        let tenant_id = match tenant_id {
+            Ok(id) => id,
+            Err(_) => return Err(Status::new(
+                Code::InvalidArgument,
+                "tenant_id is not valid")),
+        };
+
+
+        let contact_type_data = match request_data.contact_type{
+            Some(contact_type)=> {
+                ContactTypeData::from(contact_type)
+            }
+
+            None => return Err(
+                Status::new(
+                    Code::Internal,"error update contact type"))
+        };
+
+        let contact_type_result = self.staff_service
+            .upsert_contact_type(tenant_id,contact_type_data).await;
+
+        match contact_type_result {
+            Ok(result)=>{
+                Ok(Response::new(ResponseContactTypeUpsert {
+                    success:result
+                }))
+            }
+            Err(_)=> {
+                return Err(Status::new(Code::Internal,
+                                       "error update contact type "))
+            }
+        }
     }
 }
 
