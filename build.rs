@@ -1,6 +1,5 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let proto_file_staff = "./server/xklean_staff.proto";
-    //let proto_file_message = "./server/message.proto";
 
     tonic_build::configure()
         .build_server(true)
