@@ -11,17 +11,17 @@ use tokio::sync::{Mutex, oneshot};
 use tokio::sync::oneshot::{Receiver, Sender};
 use crate::adapters::connection::IConnection;
 use crate::config::configuration::Configuration as cfg;
-use crate::infrastructure::connection::DataBaseConn;
+use crate::infra::connection::DataBaseConn;
 use crate::application::{StaffServiceApi};
 use tonic::transport::Server;
-use crate::infrastructure::repository::{Repository};
-use crate::infrastructure::services::StaffService;
+use crate::infra::repository::{Repository};
+use crate::infra::services::StaffService;
 use crate::pb_staff::staff_service_server::StaffServiceServer;
 
 mod adapters;
 mod config;
 mod application;
-mod infrastructure;
+mod infra;
 mod helpers;
 
 pub mod pb_staff {

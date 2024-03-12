@@ -1,5 +1,5 @@
 use crate::adapters::entities;
-use crate::infrastructure::repository::entities::{
+use crate::infra::repository::entities::{
     tbl_staff,
     tbl_contact,
     tbl_address,

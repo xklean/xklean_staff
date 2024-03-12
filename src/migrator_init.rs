@@ -1,12 +1,12 @@
 mod migrate;
 mod config;
 mod adapters;
-mod infrastructure;
+mod infra;
 
 use sea_orm_migration::{MigratorTrait};
 use adapters::connection::{IConnection};
 use crate::config::configuration::Configuration as cfg;
-use crate::infrastructure::connection::DataBaseConn;
+use crate::infra::connection::DataBaseConn;
 use crate::migrate::Migrator;
 
 #[tokio::main]

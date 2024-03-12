@@ -13,9 +13,9 @@ use entities::{prelude::*,
 use crate::adapters::{entities as ent};
 use crate::adapters::entities::{AddressEntity};
 use crate::adapters::errors::ServiceErr;
-use crate::infrastructure::repository::entities::{tbl_staff_contact, tbl_staff_type};
+use crate::infra::repository::entities::{tbl_staff_contact, tbl_staff_type};
 use crate::adapters::types;
-use crate::infrastructure::repository::entities::prelude::TblStaff;
+use crate::infra::repository::entities::prelude::TblStaff;
 
 
 #[derive(Default)]
