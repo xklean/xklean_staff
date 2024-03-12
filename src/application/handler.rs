@@ -6,9 +6,10 @@ use crate::adapters::service::IStaffService;
 use crate::config::configuration::Configuration;
 use crate::pb_staff;
 use crate::pb_staff::{RequestAddressUpsert, RequestContactTypes, RequestContactTypeUpsert, RequestContactUpsert, RequestStaffById, RequestStaffFirstName, RequestStaffTypes, RequestStaffTypeUpsert, RequestStaffUpsert, ResponseAddressByStaffId, ResponseAddressUpsert, ResponseContactsByStaffId, ResponseContactTypes, ResponseContactTypeUpsert, ResponseContactUpsert, ResponseStaffByFirstName, ResponseStaffById, ResponseStaffTypes, ResponseStaffTypeUpsert, ResponseStaffUpsert};
-use crate::pb_staff::staff_service_server::{StaffService};
+use crate::pb_staff::x_klean_staff_service_server::{XKleanStaffServiceServer};
 
 use uuid::Error as UuidError;
+use crate::pb_staff::x_klean_staff_service_server::XKleanStaffService;
 
 
 pub struct StaffServiceApi {
@@ -27,7 +28,7 @@ impl StaffServiceApi {
 }
 
 #[tonic::async_trait]
-impl StaffService for StaffServiceApi {
+impl XKleanStaffService for StaffServiceApi {
     async fn get_staff_by_staff_id(
         &self,
         request: Request<RequestStaffById>) -> Result<Response<ResponseStaffById>, Status> {

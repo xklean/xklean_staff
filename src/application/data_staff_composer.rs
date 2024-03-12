@@ -4,9 +4,9 @@ use crate::adapters::transfer::{
     ContactTypeData,
     StaffData,
     StaffTypeData};
-use crate::pb_staff::{Address, Contact, Staff};
+use crate::pb_staff::{Address, Contact, Staff,StaffType,ContactType};
 
-impl From<StaffData> for pb_staff::Staff {
+impl From<StaffData> for Staff {
     fn from(value: StaffData) -> Self {
         let pb_address = value.address.iter().map(|add| {
             let pb_address = pb_staff::Address::from(add);
@@ -198,7 +198,7 @@ impl From<Contact> for ContactData {
         };
     }
 }
-impl From<&StaffTypeData> for pb_staff::StaffType {
+impl From<&StaffTypeData> for StaffType {
     fn from(value: &StaffTypeData) -> Self {
         return Self {
             id: value.id.to_string(),
@@ -206,7 +206,7 @@ impl From<&StaffTypeData> for pb_staff::StaffType {
         };
     }
 }
-impl From<StaffTypeData> for pb_staff::StaffType {
+impl From<StaffTypeData> for StaffType {
     fn from(value: StaffTypeData) -> Self {
         return Self {
             id: value.id.to_string(),
@@ -214,7 +214,29 @@ impl From<StaffTypeData> for pb_staff::StaffType {
         };
     }
 }
-impl From<&ContactTypeData> for pb_staff::ContactType {
+impl From<&StaffType> for StaffTypeData {
+    fn from(value: &StaffType) -> Self {
+        let id = Uuid::parse_str(value.id.as_str());
+        let staff_type_id = id.unwrap_or_else(|_| uuid::Uuid::nil());
+
+        return Self {
+            id: staff_type_id,
+            staff_type: value.staff_type.to_string(),
+        };
+    }
+}
+impl From<StaffType> for StaffTypeData {
+    fn from(value: StaffType) -> Self {
+        let id = Uuid::parse_str(value.id.as_str());
+        let staff_type_id = id.unwrap_or_else(|_| uuid::Uuid::nil());
+
+        return Self {
+            id: staff_type_id,
+            staff_type: value.staff_type.to_string(),
+        };
+    }
+}
+impl From<&ContactTypeData> for ContactType {
     fn from(value: &ContactTypeData) -> Self {
         return Self {
             id: value.id.to_string(),
@@ -222,10 +244,34 @@ impl From<&ContactTypeData> for pb_staff::ContactType {
         };
     }
 }
-impl From<ContactTypeData> for pb_staff::ContactType {
+impl From<ContactTypeData> for ContactType {
     fn from(value: ContactTypeData) -> Self {
         return Self {
             id: value.id.to_string(),
+            contact_type: value.contact_type.to_string(),
+        };
+    }
+}
+
+impl From<&ContactType> for ContactTypeData {
+    fn from(value: &ContactType) -> Self {
+        let id = Uuid::parse_str(value.id.as_str());
+        let contact_type_id = id.unwrap_or_else(|_| uuid::Uuid::nil());
+
+        return Self {
+            id: contact_type_id,
+            contact_type: value.contact_type.to_string(),
+        };
+    }
+}
+
+impl From<ContactType> for ContactTypeData {
+    fn from(value:ContactType) -> Self {
+        let id = Uuid::parse_str(value.id.as_str());
+        let contact_type_id = id.unwrap_or_else(|_| uuid::Uuid::nil());
+
+        return Self {
+            id: contact_type_id,
             contact_type: value.contact_type.to_string(),
         };
     }

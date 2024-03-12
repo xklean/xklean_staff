@@ -16,7 +16,7 @@ use crate::application::{StaffServiceApi};
 use tonic::transport::Server;
 use crate::infra::repository::{Repository};
 use crate::infra::services::StaffService;
-use crate::pb_staff::staff_service_server::StaffServiceServer;
+use crate::pb_staff::x_klean_staff_service_server::XKleanStaffServiceServer;
 
 mod adapters;
 mod config;
@@ -25,7 +25,7 @@ mod infra;
 mod helpers;
 
 pub mod pb_staff {
-    include!("../server/serverstaff.rs");
+    include!("../server/xkleanstaff.rs");
 }
 
 #[tokio::main]
@@ -56,7 +56,7 @@ async fn main()  -> Result<(), Box<dyn std::error::Error>> {
     spawn(wait_for_sigterm(signal_tx));
 
     Server::builder().add_service(
-        StaffServiceServer::new(api_server))
+        XKleanStaffServiceServer::new(api_server))
         .serve_with_shutdown(service_address.parse()?, async {
             signal_rx.await.ok();
         }

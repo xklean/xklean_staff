@@ -2,9 +2,9 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
-package serverstaff;
+package xkleanstaff;
 
-service StaffService {
+service XKleanStaffService {
     rpc GetStaffByStaffId (RequestStaffById) returns (ResponseStaffById);
     rpc GetStaffByFirstName (RequestStaffFirstName) returns (ResponseStaffByFirstName);
     rpc GetAddressByStaffId (RequestStaffById) returns (ResponseAddressByStaffId);

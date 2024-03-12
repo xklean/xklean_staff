@@ -219,15 +219,15 @@ pub struct StaffType {
     pub staff_type: ::prost::alloc::string::String,
 }
 /// Generated client implementations.
-pub mod staff_service_client {
+pub mod x_klean_staff_service_client {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
     #[derive(Debug, Clone)]
-    pub struct StaffServiceClient<T> {
+    pub struct XKleanStaffServiceClient<T> {
         inner: tonic::client::Grpc<T>,
     }
-    impl StaffServiceClient<tonic::transport::Channel> {
+    impl XKleanStaffServiceClient<tonic::transport::Channel> {
         /// Attempt to create a new client by connecting to a given endpoint.
         pub async fn connect<D>(dst: D) -> Result<Self, tonic::transport::Error>
         where
@@ -238,7 +238,7 @@ pub mod staff_service_client {
             Ok(Self::new(conn))
         }
     }
-    impl<T> StaffServiceClient<T>
+    impl<T> XKleanStaffServiceClient<T>
     where
         T: tonic::client::GrpcService<tonic::body::BoxBody>,
         T::Error: Into<StdError>,
@@ -256,7 +256,7 @@ pub mod staff_service_client {
         pub fn with_interceptor<F>(
             inner: T,
             interceptor: F,
-        ) -> StaffServiceClient<InterceptedService<T, F>>
+        ) -> XKleanStaffServiceClient<InterceptedService<T, F>>
         where
             F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -270,7 +270,7 @@ pub mod staff_service_client {
                 http::Request<tonic::body::BoxBody>,
             >>::Error: Into<StdError> + Send + Sync,
         {
-            StaffServiceClient::new(InterceptedService::new(inner, interceptor))
+            XKleanStaffServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         /// Compress requests with the given encoding.
         ///
@@ -321,12 +321,15 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetStaffByStaffId",
+                "/xkleanstaff.XKleanStaffService/GetStaffByStaffId",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
-                    GrpcMethod::new("serverstaff.StaffService", "GetStaffByStaffId"),
+                    GrpcMethod::new(
+                        "xkleanstaff.XKleanStaffService",
+                        "GetStaffByStaffId",
+                    ),
                 );
             self.inner.unary(req, path, codec).await
         }
@@ -348,12 +351,15 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetStaffByFirstName",
+                "/xkleanstaff.XKleanStaffService/GetStaffByFirstName",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
-                    GrpcMethod::new("serverstaff.StaffService", "GetStaffByFirstName"),
+                    GrpcMethod::new(
+                        "xkleanstaff.XKleanStaffService",
+                        "GetStaffByFirstName",
+                    ),
                 );
             self.inner.unary(req, path, codec).await
         }
@@ -375,12 +381,15 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetAddressByStaffId",
+                "/xkleanstaff.XKleanStaffService/GetAddressByStaffId",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
-                    GrpcMethod::new("serverstaff.StaffService", "GetAddressByStaffId"),
+                    GrpcMethod::new(
+                        "xkleanstaff.XKleanStaffService",
+                        "GetAddressByStaffId",
+                    ),
                 );
             self.inner.unary(req, path, codec).await
         }
@@ -402,12 +411,15 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetContactsByStaffId",
+                "/xkleanstaff.XKleanStaffService/GetContactsByStaffId",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
-                    GrpcMethod::new("serverstaff.StaffService", "GetContactsByStaffId"),
+                    GrpcMethod::new(
+                        "xkleanstaff.XKleanStaffService",
+                        "GetContactsByStaffId",
+                    ),
                 );
             self.inner.unary(req, path, codec).await
         }
@@ -429,11 +441,13 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetAllStaffType",
+                "/xkleanstaff.XKleanStaffService/GetAllStaffType",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("serverstaff.StaffService", "GetAllStaffType"));
+                .insert(
+                    GrpcMethod::new("xkleanstaff.XKleanStaffService", "GetAllStaffType"),
+                );
             self.inner.unary(req, path, codec).await
         }
         pub async fn get_all_contact_type(
@@ -454,12 +468,15 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/GetAllContactType",
+                "/xkleanstaff.XKleanStaffService/GetAllContactType",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
-                    GrpcMethod::new("serverstaff.StaffService", "GetAllContactType"),
+                    GrpcMethod::new(
+                        "xkleanstaff.XKleanStaffService",
+                        "GetAllContactType",
+                    ),
                 );
             self.inner.unary(req, path, codec).await
         }
@@ -481,11 +498,13 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/UpsertStaff",
+                "/xkleanstaff.XKleanStaffService/UpsertStaff",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("serverstaff.StaffService", "UpsertStaff"));
+                .insert(
+                    GrpcMethod::new("xkleanstaff.XKleanStaffService", "UpsertStaff"),
+                );
             self.inner.unary(req, path, codec).await
         }
         pub async fn upsert_address(
@@ -506,11 +525,13 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/UpsertAddress",
+                "/xkleanstaff.XKleanStaffService/UpsertAddress",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("serverstaff.StaffService", "UpsertAddress"));
+                .insert(
+                    GrpcMethod::new("xkleanstaff.XKleanStaffService", "UpsertAddress"),
+                );
             self.inner.unary(req, path, codec).await
         }
         pub async fn upsert_contact(
@@ -531,11 +552,13 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/UpsertContact",
+                "/xkleanstaff.XKleanStaffService/UpsertContact",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("serverstaff.StaffService", "UpsertContact"));
+                .insert(
+                    GrpcMethod::new("xkleanstaff.XKleanStaffService", "UpsertContact"),
+                );
             self.inner.unary(req, path, codec).await
         }
         pub async fn upsert_staff_type(
@@ -556,11 +579,13 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/UpsertStaffType",
+                "/xkleanstaff.XKleanStaffService/UpsertStaffType",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("serverstaff.StaffService", "UpsertStaffType"));
+                .insert(
+                    GrpcMethod::new("xkleanstaff.XKleanStaffService", "UpsertStaffType"),
+                );
             self.inner.unary(req, path, codec).await
         }
         pub async fn upsert_contact_type(
@@ -581,24 +606,27 @@ pub mod staff_service_client {
                 })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/serverstaff.StaffService/UpsertContactType",
+                "/xkleanstaff.XKleanStaffService/UpsertContactType",
             );
             let mut req = request.into_request();
             req.extensions_mut()
                 .insert(
-                    GrpcMethod::new("serverstaff.StaffService", "UpsertContactType"),
+                    GrpcMethod::new(
+                        "xkleanstaff.XKleanStaffService",
+                        "UpsertContactType",
+                    ),
                 );
             self.inner.unary(req, path, codec).await
         }
     }
 }
 /// Generated server implementations.
-pub mod staff_service_server {
+pub mod x_klean_staff_service_server {
     #![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     use tonic::codegen::*;
-    /// Generated trait containing gRPC methods that should be implemented for use with StaffServiceServer.
+    /// Generated trait containing gRPC methods that should be implemented for use with XKleanStaffServiceServer.
     #[async_trait]
-    pub trait StaffService: Send + Sync + 'static {
+    pub trait XKleanStaffService: Send + Sync + 'static {
         async fn get_staff_by_staff_id(
             &self,
             request: tonic::Request<super::RequestStaffById>,
@@ -678,7 +706,7 @@ pub mod staff_service_server {
         >;
     }
     #[derive(Debug)]
-    pub struct StaffServiceServer<T: StaffService> {
+    pub struct XKleanStaffServiceServer<T: XKleanStaffService> {
         inner: _Inner<T>,
         accept_compression_encodings: EnabledCompressionEncodings,
         send_compression_encodings: EnabledCompressionEncodings,
@@ -686,7 +714,7 @@ pub mod staff_service_server {
         max_encoding_message_size: Option<usize>,
     }
     struct _Inner<T>(Arc<T>);
-    impl<T: StaffService> StaffServiceServer<T> {
+    impl<T: XKleanStaffService> XKleanStaffServiceServer<T> {
         pub fn new(inner: T) -> Self {
             Self::from_arc(Arc::new(inner))
         }
@@ -738,9 +766,9 @@ pub mod staff_service_server {
             self
         }
     }
-    impl<T, B> tonic::codegen::Service<http::Request<B>> for StaffServiceServer<T>
+    impl<T, B> tonic::codegen::Service<http::Request<B>> for XKleanStaffServiceServer<T>
     where
-        T: StaffService,
+        T: XKleanStaffService,
         B: Body + Send + 'static,
         B::Error: Into<StdError> + Send + 'static,
     {
@@ -756,11 +784,11 @@ pub mod staff_service_server {
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             let inner = self.inner.clone();
             match req.uri().path() {
-                "/serverstaff.StaffService/GetStaffByStaffId" => {
+                "/xkleanstaff.XKleanStaffService/GetStaffByStaffId" => {
                     #[allow(non_camel_case_types)]
-                    struct GetStaffByStaffIdSvc<T: StaffService>(pub Arc<T>);
+                    struct GetStaffByStaffIdSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffById>
                     for GetStaffByStaffIdSvc<T> {
                         type Response = super::ResponseStaffById;
@@ -774,7 +802,10 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_staff_by_staff_id(&inner, request)
+                                <T as XKleanStaffService>::get_staff_by_staff_id(
+                                        &inner,
+                                        request,
+                                    )
                                     .await
                             };
                             Box::pin(fut)
@@ -803,11 +834,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/GetStaffByFirstName" => {
+                "/xkleanstaff.XKleanStaffService/GetStaffByFirstName" => {
                     #[allow(non_camel_case_types)]
-                    struct GetStaffByFirstNameSvc<T: StaffService>(pub Arc<T>);
+                    struct GetStaffByFirstNameSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffFirstName>
                     for GetStaffByFirstNameSvc<T> {
                         type Response = super::ResponseStaffByFirstName;
@@ -821,7 +852,7 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_staff_by_first_name(
+                                <T as XKleanStaffService>::get_staff_by_first_name(
                                         &inner,
                                         request,
                                     )
@@ -853,11 +884,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/GetAddressByStaffId" => {
+                "/xkleanstaff.XKleanStaffService/GetAddressByStaffId" => {
                     #[allow(non_camel_case_types)]
-                    struct GetAddressByStaffIdSvc<T: StaffService>(pub Arc<T>);
+                    struct GetAddressByStaffIdSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffById>
                     for GetAddressByStaffIdSvc<T> {
                         type Response = super::ResponseAddressByStaffId;
@@ -871,7 +902,7 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_address_by_staff_id(
+                                <T as XKleanStaffService>::get_address_by_staff_id(
                                         &inner,
                                         request,
                                     )
@@ -903,11 +934,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/GetContactsByStaffId" => {
+                "/xkleanstaff.XKleanStaffService/GetContactsByStaffId" => {
                     #[allow(non_camel_case_types)]
-                    struct GetContactsByStaffIdSvc<T: StaffService>(pub Arc<T>);
+                    struct GetContactsByStaffIdSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffById>
                     for GetContactsByStaffIdSvc<T> {
                         type Response = super::ResponseContactsByStaffId;
@@ -921,7 +952,7 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_contacts_by_staff_id(
+                                <T as XKleanStaffService>::get_contacts_by_staff_id(
                                         &inner,
                                         request,
                                     )
@@ -953,11 +984,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/GetAllStaffType" => {
+                "/xkleanstaff.XKleanStaffService/GetAllStaffType" => {
                     #[allow(non_camel_case_types)]
-                    struct GetAllStaffTypeSvc<T: StaffService>(pub Arc<T>);
+                    struct GetAllStaffTypeSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffTypes>
                     for GetAllStaffTypeSvc<T> {
                         type Response = super::ResponseStaffTypes;
@@ -971,7 +1002,10 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_all_staff_type(&inner, request)
+                                <T as XKleanStaffService>::get_all_staff_type(
+                                        &inner,
+                                        request,
+                                    )
                                     .await
                             };
                             Box::pin(fut)
@@ -1000,11 +1034,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/GetAllContactType" => {
+                "/xkleanstaff.XKleanStaffService/GetAllContactType" => {
                     #[allow(non_camel_case_types)]
-                    struct GetAllContactTypeSvc<T: StaffService>(pub Arc<T>);
+                    struct GetAllContactTypeSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestContactTypes>
                     for GetAllContactTypeSvc<T> {
                         type Response = super::ResponseContactTypes;
@@ -1018,7 +1052,10 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::get_all_contact_type(&inner, request)
+                                <T as XKleanStaffService>::get_all_contact_type(
+                                        &inner,
+                                        request,
+                                    )
                                     .await
                             };
                             Box::pin(fut)
@@ -1047,11 +1084,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/UpsertStaff" => {
+                "/xkleanstaff.XKleanStaffService/UpsertStaff" => {
                     #[allow(non_camel_case_types)]
-                    struct UpsertStaffSvc<T: StaffService>(pub Arc<T>);
+                    struct UpsertStaffSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffUpsert>
                     for UpsertStaffSvc<T> {
                         type Response = super::ResponseStaffUpsert;
@@ -1065,7 +1102,8 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::upsert_staff(&inner, request).await
+                                <T as XKleanStaffService>::upsert_staff(&inner, request)
+                                    .await
                             };
                             Box::pin(fut)
                         }
@@ -1093,11 +1131,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/UpsertAddress" => {
+                "/xkleanstaff.XKleanStaffService/UpsertAddress" => {
                     #[allow(non_camel_case_types)]
-                    struct UpsertAddressSvc<T: StaffService>(pub Arc<T>);
+                    struct UpsertAddressSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestAddressUpsert>
                     for UpsertAddressSvc<T> {
                         type Response = super::ResponseAddressUpsert;
@@ -1111,7 +1149,8 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::upsert_address(&inner, request).await
+                                <T as XKleanStaffService>::upsert_address(&inner, request)
+                                    .await
                             };
                             Box::pin(fut)
                         }
@@ -1139,11 +1178,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/UpsertContact" => {
+                "/xkleanstaff.XKleanStaffService/UpsertContact" => {
                     #[allow(non_camel_case_types)]
-                    struct UpsertContactSvc<T: StaffService>(pub Arc<T>);
+                    struct UpsertContactSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestContactUpsert>
                     for UpsertContactSvc<T> {
                         type Response = super::ResponseContactUpsert;
@@ -1157,7 +1196,8 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::upsert_contact(&inner, request).await
+                                <T as XKleanStaffService>::upsert_contact(&inner, request)
+                                    .await
                             };
                             Box::pin(fut)
                         }
@@ -1185,11 +1225,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/UpsertStaffType" => {
+                "/xkleanstaff.XKleanStaffService/UpsertStaffType" => {
                     #[allow(non_camel_case_types)]
-                    struct UpsertStaffTypeSvc<T: StaffService>(pub Arc<T>);
+                    struct UpsertStaffTypeSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestStaffTypeUpsert>
                     for UpsertStaffTypeSvc<T> {
                         type Response = super::ResponseStaffTypeUpsert;
@@ -1203,7 +1243,10 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::upsert_staff_type(&inner, request)
+                                <T as XKleanStaffService>::upsert_staff_type(
+                                        &inner,
+                                        request,
+                                    )
                                     .await
                             };
                             Box::pin(fut)
@@ -1232,11 +1275,11 @@ pub mod staff_service_server {
                     };
                     Box::pin(fut)
                 }
-                "/serverstaff.StaffService/UpsertContactType" => {
+                "/xkleanstaff.XKleanStaffService/UpsertContactType" => {
                     #[allow(non_camel_case_types)]
-                    struct UpsertContactTypeSvc<T: StaffService>(pub Arc<T>);
+                    struct UpsertContactTypeSvc<T: XKleanStaffService>(pub Arc<T>);
                     impl<
-                        T: StaffService,
+                        T: XKleanStaffService,
                     > tonic::server::UnaryService<super::RequestContactTypeUpsert>
                     for UpsertContactTypeSvc<T> {
                         type Response = super::ResponseContactTypeUpsert;
@@ -1250,7 +1293,10 @@ pub mod staff_service_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                <T as StaffService>::upsert_contact_type(&inner, request)
+                                <T as XKleanStaffService>::upsert_contact_type(
+                                        &inner,
+                                        request,
+                                    )
                                     .await
                             };
                             Box::pin(fut)
@@ -1294,7 +1340,7 @@ pub mod staff_service_server {
             }
         }
     }
-    impl<T: StaffService> Clone for StaffServiceServer<T> {
+    impl<T: XKleanStaffService> Clone for XKleanStaffServiceServer<T> {
         fn clone(&self) -> Self {
             let inner = self.inner.clone();
             Self {
@@ -1306,7 +1352,7 @@ pub mod staff_service_server {
             }
         }
     }
-    impl<T: StaffService> Clone for _Inner<T> {
+    impl<T: XKleanStaffService> Clone for _Inner<T> {
         fn clone(&self) -> Self {
             Self(Arc::clone(&self.0))
         }
@@ -1316,7 +1362,8 @@ pub mod staff_service_server {
             write!(f, "{:?}", self.0)
         }
     }
-    impl<T: StaffService> tonic::server::NamedService for StaffServiceServer<T> {
-        const NAME: &'static str = "serverstaff.StaffService";
+    impl<T: XKleanStaffService> tonic::server::NamedService
+    for XKleanStaffServiceServer<T> {
+        const NAME: &'static str = "xkleanstaff.XKleanStaffService";
     }
 }
